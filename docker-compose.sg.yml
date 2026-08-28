@@ -1,0 +1,31 @@
+# SG market override for the Singapore deployment (sg.dd-demo-sg-llm.com).
+#
+# Usage (always layered on top of the backend compose file):
+#   docker compose -f docker-compose-backend.yml -f docker-compose.sg.yml up -d
+#
+# DD_SERVICE / DD_LLMOBS_ML_APP already resolve to sg-hawker-guardrail from the
+# base file on this branch, so this override only pins the environment and the
+# container identity.
+services:
+  app:
+    container_name: llm-sg-app
+    environment:
+      - DD_ENV=sg-production
+
+    # /menu 302-redirects to /game, and GCP health checks only accept 2xx.
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/game"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  datadog:
+    container_name: datadog-sg
+    environment:
+      - DD_ENV=sg-production
+      - DD_TAGS=market:sg
+
+networks:
+  default:
+    name: llm-sg-network
