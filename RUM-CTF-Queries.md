@@ -1,7 +1,7 @@
-# RUM + Journey Monitoring — Hanoi Coffee Guardrail
+# RUM + Journey Monitoring — SG Hawker Guardrail
 
-RUM app ID: `95ad2a6f-23d2-4f1b-8e44-46f0570d49a4`  
-Service: `hanoi-coffee-guardrail`  
+RUM app ID: `599a68f2-d9b6-4476-af51-3d9b7f44472b`  
+Service: `sg-hawker-guardrail`  
 Dashboard: https://bang.datadoghq.com/dashboard/n4m-52n-kwr
 
 Journey Monitoring is Preview (no create-journey API). After demo traffic lands, create journeys in **Digital Experience → Journey Monitoring → New Journey**.
@@ -17,7 +17,7 @@ A win is always sữa đá. Trứng is the hold path. The map is a **Y**:
      → Guardrail held     → Brew trứng
 ```
 
-Frontend: **hanoi-coffee-guardrail**. Edit/replace the two existing journeys.
+Frontend: **sg-hawker-guardrail**. Edit/replace the two existing journeys.
 
 ### 1. Win the Guardrail
 
@@ -96,7 +96,7 @@ Leave RUM collection on if you want Journey Monitoring to see the synthetic path
 
 ## Dashboard and Explorer queries
 
-Filter every query with `@application.id:95ad2a6f-23d2-4f1b-8e44-46f0570d49a4 @session.type:user`.
+Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @session.type:user`.
 
 ### Winners
 
@@ -132,7 +132,7 @@ Filter every query with `@application.id:95ad2a6f-23d2-4f1b-8e44-46f0570d49a4 @s
 ## LLM Observability
 
 ```
-@ml_app:hanoi-coffee-guardrail @name:process_ctf_request
-@ml_app:hanoi-coffee-guardrail @name:process_ctf_request ctf.challenge_status:completed
-@ml_app:hanoi-coffee-guardrail @name:process_ctf_request ctf.challenge_status:failed
+@ml_app:sg-hawker-guardrail @name:process_ctf_request
+@ml_app:sg-hawker-guardrail @name:process_ctf_request ctf.challenge_status:completed
+@ml_app:sg-hawker-guardrail @name:process_ctf_request ctf.challenge_status:failed
 ```
