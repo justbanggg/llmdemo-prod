@@ -4,388 +4,300 @@
   var IMG = "/static/quiz_img/";
 
   var CHROME = {
-    tryAnother: { en: "TRY ANOTHER", vi: "THỬ CÁI KHÁC" },
-    guessAgain: { en: "GUESS AGAIN", vi: "ĐOÁN LẠI" },
-    bloom: { en: "…blooming…", vi: "…đang nở…" },
-    close: { en: "Close quiz", vi: "Đóng quiz" },
-    notQuite: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-    tryAnotherBody: { en: "Try another.", vi: "Thử nguyên liệu khác." },
-    quizLabel: { en: "Coffee quiz", vi: "Quiz pha cà phê" },
-    language: { en: "Language", vi: "Ngôn ngữ" }
+    tryAnother: "TRY ANOTHER",
+    guessAgain: "GUESS AGAIN",
+    bloom: "…blooming…",
+    close: "Close quiz",
+    notQuite: "NOT QUITE!",
+    tryAnotherBody: "Try another.",
+    quizLabel: "Hawker quiz"
   };
 
   var QUIZZES = {
-    "sua-da": {
-      id: "sua-da",
-      rumKey: "sua-da",
-      completeImage: IMG + "milkcoffee_6.png",
+    laksa: {
+      id: "laksa",
+      rumKey: "laksa",
+      completeImage: IMG + "laksa_6.png",
       opening: {
-        kicker: { en: "Vietnamese iced coffee", vi: "Cà phê sữa đá" },
-        title: { en: "MAKE A CÀ PHÊ SỮA ĐÁ", vi: "PHA MỘT LY CÀ PHÊ SỮA ĐÁ" },
-        subcopy: {
-          en: "Strong. Sweet. Icy.\nThink you know your way around a phin?",
-          vi: "Đậm. Ngọt. Lạnh.\nBạn thuộc lòng cái phin chưa?"
-        },
-        image: IMG + "milkcoffee_6.png",
-        cta: { en: "LET’S BREW", vi: "PHA THÔI" }
+        kicker: "Singapore laksa",
+        title: "MAKE A BOWL OF LAKSA",
+        subcopy: "Spicy. Creamy. Shiok.\nThink you can assemble the bowl?",
+        image: IMG + "laksa_6.png",
+        cta: "LET’S COOK"
       },
       result: {
-        kicker: { en: "Served", vi: "Dọn ra ly" },
-        title: { en: "NGON QUÁ!", vi: "NGON QUÁ!" },
-        subtitle: { en: "CÀ PHÊ SỮA ĐÁ: COMPLETE", vi: "CÀ PHÊ SỮA ĐÁ: XONG" },
-        body: {
-          en: "You nailed the phin, survived the wait, and kept your cool.",
-          vi: "Phin chuẩn, chờ được, và giữ được cái lạnh."
-        },
-        brewLine: { en: "Your brew:", vi: "Ly của bạn:" },
+        kicker: "Served",
+        title: "SHIOK!",
+        subtitle: "LAKSA COMPLETE",
+        body: "You fried the rempah, poured the broth, and loaded the bowl.",
+        brewLine: "Your bowl:",
         stars: "★★★★★",
         stats: [
-          { label: { en: "Strength", vi: "Đậm" }, fill: 100 },
-          { label: { en: "Sweetness", vi: "Ngọt" }, fill: 80 },
-          { label: { en: "Patience required", vi: "Cần kiên nhẫn" }, fill: 100 }
+          { label: "Spice", fill: 80 },
+          { label: "Creaminess", fill: 100 },
+          { label: "Slurpability", fill: 100 }
         ]
       },
       steps: [
         {
           id: 1,
           view: "step-1",
-          kicker: { en: "Step 1 — Pick your coffee", vi: "Bước 1 — Chọn cà phê" },
-          title: { en: "WHAT GOES IN THE PHIN?", vi: "CHO GÌ VÀO PHIN?" },
-          image: IMG + "milkcoffee_1.png",
+          kicker: "Step 1 — Start with the rempah",
+          title: "WHERE DOES ALL THAT LAKSA FLAVOUR BEGIN?",
+          image: IMG + "laksa_1.png",
           layout: "cards",
           choices: [
-            { id: "instant", emoji: "📦", label: { en: "Instant coffee powder", vi: "Cà phê hòa tan" }, correct: false, wrongTitle: { en: "TOO FINE!", vi: "MỊN QUÁ!" } },
-            { id: "medium", emoji: "🫘", label: { en: "Medium-ground dark roast coffee", vi: "Cà phê rang đậm xay vừa" }, correct: true },
-            { id: "beans", emoji: "🌑", label: { en: "Whole coffee beans", vi: "Hạt cà phê nguyên" }, correct: false, wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" } },
-            { id: "espresso", emoji: "⬛", label: { en: "Fine espresso grounds", vi: "Bột espresso xay mịn" }, correct: false, wrongTitle: { en: "TOO FINE!", vi: "MỊN QUÁ!" } }
+            { id: "butter", emoji: "🧈", label: "Butter and black pepper", correct: false },
+            { id: "tomato", emoji: "🍅", label: "Tomato and basil", correct: false },
+            { id: "rempah", emoji: "🌶️", label: "Chilli, shallots, garlic and aromatic spices", correct: true },
+            { id: "soy", emoji: "🥫", label: "Soy sauce and sugar", correct: false }
           ],
           correct: {
-            title: { en: "NICE PICK!", vi: "CHỌN HAY!" },
-            body: {
-              en: "A phin likes a medium grind — coarse enough for water to pass through slowly, but fine enough to brew a strong cup.\n\nVietnamese coffee is often made with dark-roasted Robusta or a Robusta-forward blend.",
-              vi: "Phin thích độ xay vừa — thô đủ để nước chảy chậm, nhưng mịn đủ để ra một ly đậm.\n\nCà phê Việt thường dùng Robusta rang đậm, hoặc blend nghiêng Robusta."
-            },
-            cta: { en: "PHIN READY →", vi: "PHIN XONG →" }
+            title: "REM-PAH-PAH!",
+            body: "Laksa begins with rempah — a fragrant spice paste built from chilli and Southeast Asian aromatics.\n\nThis becomes the foundation of the broth.",
+            cta: "FIRE UP THE WOK →"
           },
-          wrongBody: {
-            en: "That one won’t give us the slow, strong phin brew we’re after.",
-            vi: "Cái đó không cho ra ly phin chậm và đậm như mình muốn."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "That one won’t give us the rempah we’re after."
         },
         {
           id: 2,
           view: "step-2",
-          kicker: { en: "Step 2 — Phin it right", vi: "Bước 2 — Phin cho đúng" },
-          title: { en: "COFFEE’S IN. WHAT GOES ON TOP?", vi: "CÀ PHÊ RỒI. CHO GÌ LÊN TRÊN?" },
-          image: IMG + "milkcoffee_2.png",
+          kicker: "Step 2 — Don’t rush the rempah",
+          title: "THE REMPAH IS READY. WHAT DO WE DO WITH IT?",
+          image: IMG + "laksa_2.png",
           layout: "cards",
           choices: [
-            { id: "spoon", emoji: "🥄", label: { en: "Spoon", vi: "Thìa" }, correct: false },
-            { id: "ice", emoji: "🧊", label: { en: "Ice cube", vi: "Viên đá" }, correct: false },
-            { id: "press", emoji: "⚙️", label: { en: "Metal filter press", vi: "Gạn phin" }, correct: true },
-            { id: "lid", emoji: "🧢", label: { en: "Phin lid", vi: "Nắp phin" }, correct: false }
+            { id: "ice", emoji: "🧊", label: "Add ice", correct: false },
+            { id: "bowl", emoji: "🥣", label: "Put it straight into the serving bowl", correct: false },
+            { id: "fry", emoji: "🔥", label: "Fry it in oil until fragrant", correct: true },
+            { id: "rinse", emoji: "💧", label: "Rinse it with water", correct: false }
           ],
           correct: {
-            title: { en: "PRESS IT DOWN — GENTLY.", vi: "ẤN XUỐNG — NHẸ THÔI." },
-            body: {
-              en: "The filter press holds the coffee bed in place while the hot water works its way through.\n\nDon’t pack it too hard — we still need that drip.",
-              vi: "Gạn phin giữ lớp cà phê tại chỗ để nước nóng từ từ thấm qua.\n\nĐừng nén quá chặt — vẫn cần cái nhỏ giọt."
-            },
-            cta: { en: "NEXT: WAKE IT UP →", vi: "TIẾP: ĐÁNH THỨC →" }
+            title: "FRY UNTIL FRAGRANT.",
+            body: "Cooking the rempah develops its aroma and flavour.\n\nAs it cooks, the paste becomes darker and glossier and aromatic oil begins to appear around it.",
+            cta: "MAKE IT CREAMY →"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "That one won’t give us the slow, strong phin brew we’re after.",
-            vi: "Cái đó không cho ra ly phin chậm và đậm như mình muốn."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "Don’t skip the fry — we need that fragrance first."
         },
         {
           id: 3,
           view: "step-3",
-          kicker: { en: "Step 3 — Wake up the coffee", vi: "Bước 3 — Đánh thức cà phê" },
-          title: { en: "BEFORE THE BIG POUR… WHAT FIRST?", vi: "TRƯỚC KHI ĐỔ NHIỀU… LÀM GÌ TRƯỚC?" },
-          image: IMG + "milkcoffee_3.png",
+          kicker: "Step 3 — Make it rich",
+          title: "WHAT TURNS THE REMPAH INTO THAT CREAMY ORANGE BROTH?",
+          image: IMG + "laksa_3.png",
           layout: "cards",
-          extra: "bloom",
           choices: [
-            { id: "cold-milk", emoji: "🥛", label: { en: "Cold milk", vi: "Sữa lạnh" }, correct: false },
-            { id: "full-kettle", emoji: "🫖", label: { en: "Full kettle of water", vi: "Cả ấm nước" }, correct: false },
-            { id: "splash", emoji: "💧", label: { en: "Small splash of hot water", vi: "Một chút nước nóng" }, correct: true },
-            { id: "condensed", emoji: "🥫", label: { en: "Condensed milk", vi: "Sữa đặc" }, correct: false }
+            { id: "sparkling", emoji: "🫧", label: "Sparkling water", correct: false },
+            { id: "juice", emoji: "🧃", label: "Tomato juice", correct: false },
+            { id: "coconut", emoji: "🥥", label: "Coconut milk with stock", correct: true },
+            { id: "cold-milk", emoji: "🥛", label: "Plain cold milk", correct: false }
           ],
           correct: {
-            title: { en: "LET IT BLOOM.", vi: "CHO NÓ NỞ." },
-            body: {
-              en: "A little hot water wets the grounds first and gets them ready for the main brew.\n\nGive it a moment.",
-              vi: "Một chút nước nóng làm ướt bột trước, để cà phê sẵn sàng cho lần đổ chính.\n\nChờ một nhịp."
-            },
-            cta: { en: "POUR IT UP →", vi: "ĐỔ NƯỚC →" }
+            title: "NOW WE’RE TALKING.",
+            body: "Coconut milk gives the broth its creamy body while the rempah brings heat, spice and aroma.\n\nTogether they create that rich orange laksa broth.",
+            cta: "NOODLE TIME →"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "That one won’t give us the slow, strong phin brew we’re after.",
-            vi: "Cái đó không cho ra ly phin chậm và đậm như mình muốn."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "We need coconut milk with stock for that creamy orange broth."
         },
         {
           id: 4,
           view: "step-4",
-          kicker: { en: "Step 4 — Slow down, ah", vi: "Bước 4 — Từ từ thôi" },
-          title: { en: "THE PHIN IS FULL. NOW WHAT?", vi: "PHIN ĐÃ ĐẦY. GIỜ LÀM GÌ?" },
-          image: IMG + "milkcoffee_4.png",
-          layout: "actions",
-          extra: "drip",
+          kicker: "Step 4 — Pick your noodle",
+          title: "WHICH NOODLES ARE GOING INTO THE BOWL?",
+          image: IMG + "laksa_4.png",
+          layout: "cards",
           choices: [
-            { id: "press", emoji: "👊", label: { en: "PRESS\nPush the coffee through.", vi: "ẤN\nÉp cà phê chảy xuống." }, correct: false },
-            { id: "stir", emoji: "🥄", label: { en: "STIR\nGive everything a mix.", vi: "KHUẤY\nTrộn tất cả lên." }, correct: false },
-            { id: "wait", emoji: "⏳", label: { en: "WAIT\nLet gravity do its thing.", vi: "CHỜ\nĐể trọng lực làm việc." }, correct: true },
-            { id: "filter", emoji: "📄", label: { en: "FILTER AGAIN\nGrab some filter paper.", vi: "LỌC LẠI\nLấy giấy lọc." }, correct: false }
+            { id: "spaghetti", emoji: "🍝", label: "Italian spaghetti", correct: false },
+            { id: "soba", emoji: "🍜", label: "Japanese soba", correct: false },
+            { id: "vermicelli", emoji: "🥢", label: "Thick rice vermicelli", correct: true },
+            { id: "instant", emoji: "📦", label: "Yellow instant noodles", correct: false }
           ],
           correct: {
-            title: { en: "DRIP. DRIP. DRIP.", vi: "NHỎ. NHỎ. NHỎ." },
-            body: {
-              en: "That slow drip is the whole point.\n\nThe phin produces a concentrated coffee strong enough to stand up to condensed milk and ice.",
-              vi: "Cái nhỏ giọt chậm chính là cả bài.\n\nPhin cho ra cà phê đặc, đủ mạnh để đứng vững trước sữa đặc và đá."
-            },
-            cta: { en: "ALMOST THERE →", vi: "SẮP XONG →" }
+            title: "RICE NOODLES, PLEASE.",
+            body: "Thick rice vermicelli pairs beautifully with the rich laksa broth.\n\nFor a Katong-inspired style, the noodles can even be cut shorter for easy spooning.",
+            cta: "BUILD THAT BOWL →"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "Patience. The phin is not a machine you shove around.",
-            vi: "Kiên nhẫn. Phin không phải máy để mình thúc."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "This bowl wants thick rice vermicelli, not a stand-in."
         },
         {
           id: 5,
           view: "step-5",
-          kicker: { en: "Step 5 — Make it iced", vi: "Bước 5 — Cho đá vào" },
-          title: { en: "COFFEE DONE. HOW DO WE FINISH IT?", vi: "CÀ PHÊ XONG. HOÀN THIỆN THẾ NÀO?" },
-          image: IMG + "milkcoffee_5.png",
-          layout: "beats",
-          beats: [
-            {
-              title: { en: "MIX IT?", vi: "KHUẤY KHÔNG?" },
-              layout: "actions",
-              choices: [
-                { id: "stir", emoji: "🥄", label: { en: "STIR", vi: "KHUẤY" }, correct: true },
-                { id: "dont", emoji: "🚫", label: { en: "DON’T STIR", vi: "ĐỪNG KHUẤY" }, correct: false }
-              ],
-              wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-              wrongBody: {
-                en: "Give the condensed milk a chance to meet the coffee first.",
-                vi: "Cho sữa đặc gặp cà phê trước đã."
-              }
-            },
-            {
-              title: { en: "WHERE NEXT?", vi: "TIẾP THEO ĐÂU?" },
-              hint: { en: "Tap the glass of ice.", vi: "Chạm vào ly đá." },
-              layout: "tap-scene",
-              image: IMG + "milkcoffee_6.png"
-            }
+          kicker: "Step 5 — Pour it together",
+          title: "NOODLES ARE IN. WHAT HAPPENS NEXT?",
+          image: IMG + "laksa_5.png",
+          layout: "cards",
+          choices: [
+            { id: "pour", emoji: "🍲", label: "Pour in the laksa broth, then add the prepared toppings", correct: true },
+            { id: "dry", emoji: "🚫", label: "Serve the noodles completely dry", correct: false },
+            { id: "chicken", emoji: "🐔", label: "Add poached chicken and cucumber", correct: false },
+            { id: "water", emoji: "💧", label: "Fill the bowl with plain cold water", correct: false }
           ],
           correct: {
-            title: { en: "THAT’S THE ONE.", vi: "ĐÚNG LY ĐÓ." },
-            body: {
-              en: "Strong coffee + sweet condensed milk + plenty of ice.\n\nSimple ingredients. Very serious refreshment.",
-              vi: "Cà phê đậm + sữa đặc ngọt + thật nhiều đá.\n\nNguyên liệu đơn giản. Giải khát thì nghiêm túc."
-            },
-            cta: { en: "SERVE IT!", vi: "DỌN RA LY!" }
-          }
+            title: "POUR, THEN LOAD.",
+            body: "First the rich coconut broth surrounds the noodles.\n\nThen prawns, tofu puffs, fish cake, bean sprouts and laksa leaves finish the bowl.\n\nThose tofu puffs will soak up all that broth nicely.",
+            cta: "SERVE IT!"
+          },
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "Pour the broth, then load the toppings — don’t skip the soup."
         }
       ]
     },
-    trung: {
-      id: "trung",
-      rumKey: "trung",
-      completeImage: IMG + "eggcoffee_6.png",
+    "chicken-rice": {
+      id: "chicken-rice",
+      rumKey: "chicken-rice",
+      completeImage: IMG + "chickenrice_6.png",
       opening: {
-        kicker: { en: "Vietnamese egg coffee", vi: "Cà phê trứng" },
-        title: { en: "ROUND TWO: THINGS ARE GETTING EGGY", vi: "VÒNG HAI: TỚI LÚC CÓ TRỨNG" },
-        subcopy: {
-          en: "Coffee was easy.\nNow let’s turn an egg yolk into something that tastes suspiciously like dessert.",
-          vi: "Pha cà phê thì dễ.\nGiờ biến lòng đỏ trứng thành thứ nghe như món tráng miệng."
-        },
-        image: IMG + "eggcoffee_6.png",
-        cta: { en: "CRACK ON", vi: "ĐẬP TRỨNG" }
+        kicker: "Hainanese chicken rice",
+        title: "MAKE HAINANESE CHICKEN RICE",
+        subcopy: "Tender. Fragrant. Steady.\nThink you know the hawker plate?",
+        image: IMG + "chickenrice_6.png",
+        cta: "LET’S COOK"
       },
       result: {
-        kicker: { en: "Served", vi: "Dọn ra ly" },
-        title: { en: "XONG RỒI!", vi: "XONG RỒI!" },
-        subtitle: { en: "CÀ PHÊ TRỨNG: COMPLETE", vi: "CÀ PHÊ TRỨNG: XONG" },
-        body: {
-          en: "Coffee underneath.\nDessert on top.\nVery sensible arrangement.",
-          vi: "Cà phê ở dưới.\nMón ngọt ở trên.\nSắp xếp hợp lý."
-        },
-        brewLine: { en: "Your cup:", vi: "Ly của bạn:" },
+        kicker: "Served",
+        title: "STEADY LAH!",
+        subtitle: "CHICKEN RICE COMPLETE",
+        body: "You poached it right, chilled it, and built the plate.",
+        brewLine: "Your plate:",
         stars: "★★★★★",
         stats: [
-          { label: { en: "Coffee kick", vi: "Độ cà phê" }, fill: 100 },
-          { label: { en: "Creaminess", vi: "Độ béo" }, fill: 100 },
-          { label: { en: "Dessert energy", vi: "Năng lượng tráng miệng" }, fill: 100 }
+          { label: "Chicken: juicy", fill: 100 },
+          { label: "Rice: fragrant", fill: 100 },
+          { label: "Chilli: handled", fill: 80 }
         ]
       },
       steps: [
         {
           id: 1,
           view: "step-1",
-          kicker: { en: "Step 1 — Start strong", vi: "Bước 1 — Bắt đầu cho đậm" },
-          title: { en: "WHAT’S HIDING UNDER ALL THAT EGG CREAM?", vi: "BÊN DƯỚI LỚP KEM TRỨNG LÀ GÌ?" },
-          image: IMG + "eggcoffee_1.png",
+          kicker: "Step 1 — Spa day for chicken",
+          title: "HOW SHOULD WE COOK THE CHICKEN?",
+          image: IMG + "chickenrice_1.png",
           layout: "cards",
           choices: [
-            { id: "vn-coffee", emoji: "☕", label: { en: "Strong Vietnamese coffee", vi: "Cà phê Việt đậm" }, correct: true },
-            { id: "tea", emoji: "🍵", label: { en: "Green tea", vi: "Trà xanh" }, correct: false },
-            { id: "steamed", emoji: "🥛", label: { en: "Steamed milk", vi: "Sữa nóng" }, correct: false },
-            { id: "coconut", emoji: "🥥", label: { en: "Coconut water", vi: "Nước dừa" }, correct: false }
+            { id: "fry", emoji: "🍳", label: "Deep-fry it until crispy", correct: false },
+            { id: "roast", emoji: "🔥", label: "Roast it over high heat", correct: false },
+            { id: "poach", emoji: "🍲", label: "Gently poach it in aromatic broth", correct: true },
+            { id: "grill", emoji: "🥩", label: "Grill it over charcoal", correct: false }
           ],
           correct: {
-            title: { en: "START WITH THE STRONG STUFF.", vi: "BẮT ĐẦU BẰNG THỨ ĐẬM." },
-            body: {
-              en: "Cà phê trứng begins with concentrated coffee.\n\nThat dark coffee gives the sweet egg cream something bold to sit on.",
-              vi: "Cà phê trứng bắt đầu bằng cà phê đặc.\n\nLớp cà phê đậm cho kem trứng ngọt có chỗ để ngồi lên."
-            },
-            cta: { en: "GET CRACKING →", vi: "ĐẬP TRỨNG →" }
+            title: "LOW AND SLOW.",
+            body: "Gentle poaching helps keep the chicken tender and juicy while ginger and spring onion flavour the broth.",
+            cta: "COOL IT DOWN →"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "Egg cream needs a bold coffee base, not a stand-in.",
-            vi: "Kem trứng cần đế cà phê đậm, không phải đồ thế chỗ."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "This chicken wants a gentle poach, not a hard sear."
         },
         {
           id: 2,
           view: "step-2",
-          kicker: { en: "Step 2 — Yolk about it", vi: "Bước 2 — Chuyện lòng đỏ" },
-          title: { en: "THE EGG’S CRACKED. WHICH PART ARE WE KEEPING?", vi: "TRỨNG ĐÃ ĐẬP. GIỮ PHẦN NÀO?" },
-          image: IMG + "eggcoffee_2.png",
+          kicker: "Step 2 — Chill, chicken",
+          title: "CHICKEN’S COOKED. WHAT HAPPENS NEXT?",
+          image: IMG + "chickenrice_2.png",
           layout: "cards",
           choices: [
-            { id: "white", emoji: "🤍", label: { en: "Bowl of egg white", vi: "Bát lòng trắng" }, correct: false },
-            { id: "yolk", emoji: "🟡", label: { en: "Golden egg yolk", vi: "Lòng đỏ vàng" }, correct: true },
-            { id: "shell", emoji: "🥚", label: { en: "Eggshell", vi: "Vỏ trứng" }, correct: false },
-            { id: "boiled", emoji: "🍳", label: { en: "Whole boiled egg", vi: "Trứng luộc nguyên" }, correct: false }
+            { id: "oven", emoji: "🔥", label: "Put it straight into the oven", correct: false },
+            { id: "ice", emoji: "🧊", label: "Cool it quickly in cold or iced water", correct: true },
+            { id: "flour", emoji: "🌾", label: "Coat it in flour", correct: false },
+            { id: "refry", emoji: "🍳", label: "Fry it again", correct: false }
           ],
           correct: {
-            title: { en: "YOLK’S ON YOU.", vi: "LÒNG ĐỎ ĐÓ." },
-            body: {
-              en: "The rich yolk is the base of that famous creamy topping.\n\nEgg white can sit this one out.",
-              vi: "Lòng đỏ béo là nền của lớp kem nổi tiếng đó.\n\nLòng trắng ngồi ngoài vòng này."
-            },
-            cta: { en: "MAKE IT SWEET →", vi: "CHO NGỌT VÀO →" }
+            title: "STRAIGHT INTO THE COLD.",
+            body: "Cooling stops the chicken from continuing to cook and helps preserve its tender texture and smooth skin.",
+            cta: "RICE TIME →"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "We’re after the golden bit — leave the rest of the egg behind.",
-            vi: "Mình cần phần vàng — phần còn lại để đó."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "Chill it first — that ice bath is doing real work."
         },
         {
           id: 3,
           view: "step-3",
-          kicker: { en: "Step 3 — Sweeten the deal", vi: "Bước 3 — Cho ngọt vào" },
-          title: { en: "WHAT JOINS THE YOLK?", vi: "GÌ ĐI CÙNG LÒNG ĐỎ?" },
-          image: IMG + "eggcoffee_3.png",
+          kicker: "Step 3 — The rice is not just rice",
+          title: "WHAT GIVES CHICKEN RICE ITS BIG FLAVOUR?",
+          image: IMG + "chickenrice_3.png",
           layout: "cards",
           choices: [
-            { id: "condensed", emoji: "🥫", label: { en: "Sweetened condensed milk", vi: "Sữa đặc có đường" }, correct: true },
-            { id: "sparkling", emoji: "🫧", label: { en: "Sparkling water", vi: "Nước có ga" }, correct: false },
-            { id: "soy", emoji: "🧂", label: { en: "Soy sauce", vi: "Nước tương" }, correct: false },
-            { id: "butter", emoji: "🧈", label: { en: "Melted butter", vi: "Bơ tan" }, correct: false }
+            { id: "water", emoji: "💧", label: "Plain water only", correct: false },
+            { id: "coconut", emoji: "🥥", label: "Coconut milk and sugar", correct: false },
+            { id: "stock", emoji: "🍗", label: "Chicken stock, ginger, garlic and chicken fat or oil", correct: true },
+            { id: "chilli-oil", emoji: "🌶️", label: "Soy sauce and chilli oil", correct: false }
           ],
           correct: {
-            title: { en: "SWEET MOVE.", vi: "NGỌT ĐÚNG LÚC." },
-            body: {
-              en: "Condensed milk gives the mixture sweetness, body and that rich dessert-like character.\n\nNow comes the workout.",
-              vi: "Sữa đặc cho hỗn hợp vị ngọt, độ đặc, và cái chất như món tráng miệng.\n\nGiờ tới phần tập tay."
-            },
-            cta: { en: "WHISK AWAY →", vi: "ĐÁNH KEM →" }
+            title: "THAT’S THE GOOD STUFF.",
+            body: "The rice cooks in savoury chicken stock with aromatics, giving it the fragrance that makes chicken rice more than just chicken plus rice.",
+            cta: "SAUCE TIME →"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "The yolk wants condensed milk — nothing savory, nothing fizzy.",
-            vi: "Lòng đỏ cần sữa đặc — đừng mặn, đừng có ga."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "The rice needs chicken stock and aromatics, not a shortcut."
         },
         {
           id: 4,
           view: "step-4",
-          kicker: { en: "Step 4 — Whip it good", vi: "Bước 4 — Đánh cho bông" },
-          title: { en: "WHEN DO WE STOP WHISKING?", vi: "ĐÁNH ĐẾN KHI NÀO DỪNG?" },
-          image: IMG + "eggcoffee_4.png",
-          layout: "stages",
+          kicker: "Step 4 — Sauce boss",
+          title: "WHICH SAUCE BELONGS WITH CHICKEN RICE?",
+          image: IMG + "chickenrice_4.png",
+          layout: "cards",
           choices: [
-            { id: "runny", emoji: "", label: { en: "RUNNY\nDark yellow and thin.", vi: "LOÃNG\nVàng đậm và loãng." }, swatch: "runny", correct: false },
-            { id: "creamy", emoji: "", label: { en: "CREAMY\nLighter but still loose.", vi: "SỆT\nNhạt hơn nhưng vẫn lỏng." }, swatch: "creamy", correct: false },
-            { id: "fluffy", emoji: "", label: { en: "THICK + FLUFFY\nPale, airy, soft peaks.", vi: "DÀY + BÔNG\nNhạt, xốp, đỉnh mềm." }, swatch: "fluffy", correct: true }
+            { id: "ketchup", emoji: "🍅", label: "Tomato ketchup", correct: false },
+            { id: "cheese", emoji: "🧀", label: "Cheese sauce", correct: false },
+            { id: "chilli", emoji: "🌶️", label: "Fresh chilli sauce with ginger and garlic", correct: true },
+            { id: "mayo", emoji: "🥄", label: "Mayonnaise", correct: false }
           ],
           correct: {
-            title: { en: "THERE IT IS.", vi: "ĐÓ RỒI." },
-            body: {
-              en: "Whisking adds air until the yolk and condensed milk become thick, pale and velvety.\n\nThat fluffy texture is what makes egg coffee feel almost like a dessert.",
-              vi: "Đánh kem cho không khí vào đến khi lòng đỏ và sữa đặc đặc, nhạt màu và mượt.\n\nCái xốp đó khiến cà phê trứng gần như món tráng miệng."
-            },
-            cta: { en: "BUILD THE CUP →", vi: "DỰNG LY →" }
+            title: "BRING THE HEAT.",
+            body: "Fresh chilli sauce cuts through the richness of the chicken and fragrant rice.\n\nChicken rice is also commonly served with ginger-scallion sauce and dark soy.",
+            cta: "BUILD THE PLATE →"
           },
-          wrongTitle: { en: "KEEP GOING!", vi: "ĐÁNH TIẾP!" },
-          wrongBody: {
-            en: "Not there yet — we want pale, airy, and thick enough to sit on the coffee.",
-            vi: "Chưa tới — cần nhạt, xốp, và đặc đủ để ngồi trên cà phê."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "This plate wants fresh chilli sauce, not a condiment swap."
         },
         {
           id: 5,
           view: "step-5",
-          kicker: { en: "Step 5 — The grand finale", vi: "Bước 5 — Màn kết" },
-          title: { en: "COFFEE: READY.\nCREAM: READY.\nNOW WHAT?", vi: "CÀ PHÊ: XONG.\nKEM: XONG.\nGIỜ LÀM GÌ?" },
-          image: IMG + "eggcoffee_5.png",
+          kicker: "Step 5 — Build the plate",
+          title: "RICE READY. CUCUMBER READY. WHAT GOES ON NEXT?",
+          image: IMG + "chickenrice_5.png",
           layout: "cards",
           choices: [
-            { id: "spoon", emoji: "🥄", label: { en: "Spoon the cream over the coffee", vi: "Múc kem lên cà phê" }, correct: true },
-            { id: "ice", emoji: "🧊", label: { en: "Mix everything with ice", vi: "Trộn tất cả với đá" }, correct: false },
-            { id: "pour-away", emoji: "🫗", label: { en: "Pour the coffee away", vi: "Đổ cà phê đi" }, correct: false },
-            { id: "raw", emoji: "🟡", label: { en: "Drop in a raw yolk", vi: "Thả lòng đỏ sống" }, correct: false }
+            { id: "slice", emoji: "🐔", label: "Place the sliced poached chicken beside the rice", correct: true },
+            { id: "curry", emoji: "🍛", label: "Pour coconut curry over the rice", correct: false },
+            { id: "fried", emoji: "🍳", label: "Mix everything into fried rice", correct: false },
+            { id: "cheese-cover", emoji: "🧀", label: "Cover the plate with cheese", correct: false }
           ],
           correct: {
-            title: { en: "LOOK AT THOSE LAYERS.", vi: "NHÌN MẤY LỚP ĐÓ." },
-            body: {
-              en: "Dark Vietnamese coffee underneath.\nThick golden egg cream on top.\n\nSip through both and you get bitter, sweet and creamy in one go.",
-              vi: "Cà phê Việt đậm ở dưới.\nKem trứng vàng dày ở trên.\n\nHút cả hai lớp: đắng, ngọt, béo một lần."
-            },
-            cta: { en: "SERVE IT!", vi: "DỌN RA LY!" }
+            title: "COMING TOGETHER.",
+            body: "Now the tender chicken joins the fragrant rice and cucumber.\n\nKeep the chilli, ginger sauce and dark soy on the side and the plate is ready to serve.",
+            cta: "SERVE IT!"
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-          wrongBody: {
-            en: "Keep the layers. Spoon the cream onto the coffee — don’t stir it into ice.",
-            vi: "Giữ các lớp. Múc kem lên cà phê — đừng khuấy với đá."
-          }
+          wrongTitle: "NOT QUITE!",
+          wrongBody: "Slice the poached chicken onto the plate — keep it simple."
         }
       ]
     }
   };
 
+  var root = null;
+  var onCloseCallback = null;
   var state = {
     quizId: null,
     screen: "opening",
     stepIndex: 0,
     beatIndex: 0,
+    locked: false,
+    vitalOpen: false,
     startedAt: 0,
     stepStartedAt: 0,
-    vitalOpen: false,
-    locked: false,
     feedback: null
   };
-
-  var root = null;
-  var onCloseCallback = null;
-
-  function lang() {
-    return localStorage.getItem("ctf_lang") === "en" ? "en" : "vi";
-  }
 
   function tx(value) {
     if (value == null) return "";
     if (typeof value === "string") return value;
-    return value[lang()] || value.en || value.vi || "";
+    return value.en || "";
   }
 
   function rum(fn) {
@@ -503,22 +415,11 @@
     return dots;
   }
 
-  function langToggleHtml() {
-    var current = lang();
-    return (
-      '<div class="lang-toggle quiz-lang-toggle" role="group" aria-label="' + esc(tx(CHROME.language)) + '">' +
-        '<button type="button" class="lang-btn' + (current === "vi" ? " is-active" : "") + '" data-quiz-lang="vi">VI</button>' +
-        '<button type="button" class="lang-btn' + (current === "en" ? " is-active" : "") + '" data-quiz-lang="en">EN</button>' +
-      "</div>"
-    );
-  }
-
   function shell(inner) {
     return (
       '<div class="quiz-overlay" role="dialog" aria-modal="true" aria-label="' + esc(tx(CHROME.quizLabel)) + '">' +
         '<div class="quiz-shell">' +
           '<div class="quiz-topbar">' +
-            langToggleHtml() +
             '<div class="quiz-progress" aria-hidden="true">' + progressHtml() + "</div>" +
             '<button type="button" class="quiz-close" data-quiz-close aria-label="' + esc(tx(CHROME.close)) + '">×</button>' +
           "</div>" +
@@ -662,17 +563,6 @@
     overlay.querySelectorAll("[data-tap-scene]").forEach(function (scene) {
       scene.addEventListener("click", function () {
         onSceneTap();
-      });
-    });
-    overlay.querySelectorAll("[data-quiz-lang]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var next = btn.getAttribute("data-quiz-lang");
-        if (typeof global.setLanguage === "function") {
-          global.setLanguage(next);
-        } else {
-          localStorage.setItem("ctf_lang", next === "en" ? "en" : "vi");
-          rerender();
-        }
       });
     });
   }
@@ -920,6 +810,6 @@
     rerender: rerender,
     isOpen: isOpen,
     playCelebration: playCelebration,
-    ids: { milk: "sua-da", egg: "trung" }
+    ids: { laksa: "laksa", rice: "chicken-rice" }
   };
 })(window);

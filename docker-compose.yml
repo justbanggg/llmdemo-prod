@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: hanoi-coffee-guardrail
+    container_name: sg-hawker-guardrail
     restart: unless-stopped
     
     # Environment variables for the modular Flask application
@@ -11,14 +11,14 @@ services:
       
       # Datadog Core Configuration
       - DD_SITE=datadoghq.com
-      - DD_SERVICE=hanoi-coffee-guardrail
+      - DD_SERVICE=sg-hawker-guardrail
       - DD_ENV=production
       - DD_TRACE_ENABLED=true
       - DD_AGENT_HOST=datadog
       
       # Datadog LLM Observability (for modular workflows)
       - DD_LLMOBS_ENABLED=1
-      - DD_LLMOBS_ML_APP=hanoi-coffee-guardrail
+      - DD_LLMOBS_ML_APP=sg-hawker-guardrail
       - DD_LLMOBS_AGENTLESS_ENABLED=false
       
       # Datadog Application Security (for AI Guard integration)
