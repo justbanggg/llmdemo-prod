@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hawker quiz</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/quiz.css">
+
+  <script>
+    (function(h,o,u,n,d) {
+       h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
+       d=o.createElement(u);d.async=1;d.src=n
+       n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
+    })(window,document,'script','https://www.datadoghq-browser-agent.com/us1/v5/datadog-rum.js','DD_RUM')
+
+    window.isDatadogSynthetics = function () {
+      try {
+        if (window._DATADOG_SYNTHETICS) return true;
+        if (navigator.userAgent && /DatadogSynthetics/i.test(navigator.userAgent)) return true;
+      } catch (e) {}
+      return false;
+    };
+
+    window.DD_RUM.onReady(function() {
+      window.DD_RUM.init({
+        applicationId: '599a68f2-d9b6-4476-af51-3d9b7f44472b',
+        clientToken: 'pubf7b1e48b077e84c38611f4be83ea373a',
+        site: 'datadoghq.com',
+        service: 'sg-hawker-showdown',
+        env: 'sg-production',
+        version: '1.0.0',
+        sessionSampleRate: 100,
+        sessionReplaySampleRate: 100,
+        trackUserInteractions: true,
+        trackResources: true,
+        trackLongTasks: true,
+        defaultPrivacyLevel: 'mask-user-input',
+        allowedTracingUrls: [
+          {
+            match: function (url) {
+              return url.startsWith(window.location.origin) ||
+                url.startsWith("https://prod.dd-demo-sg-llm.com") ||
+                url.startsWith("https://dd-demo-sg-llm.com");
+            },
+            propagatorTypes: ["datadog", "tracecontext"]
+          }
+        ],
+        traceSampleRate: 100
+      });
+      window.DD_RUM.startSessionReplayRecording({ force: true });
+
+      function setRUMUserContext() {
+        const userName = sessionStorage.getItem("user_name") || localStorage.getItem('shopAssistUser') || 'anonymous';
+        window.DD_RUM.setUser({
+          id: userName,
+          name: userName,
+          page: 'quiz',
+          session_type: 'demo',
+          quiz_id: {{ quiz_id|tojson }},
+          traffic: window.isDatadogSynthetics() ? 'synthetics' : 'user'
+        });
+      }
+
+      setRUMUserContext();
+      window.addEventListener('storage', setRUMUserContext);
+    });
+  </script>
+</head>
+<body class="quiz-page" data-quiz-id="{{ quiz_id }}">
+  <div id="quiz-root"></div>
+  <script src="/static/quiz.js"></script>
+</body>
+</html>

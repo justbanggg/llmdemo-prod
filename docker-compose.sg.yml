@@ -3,7 +3,7 @@
 # Usage (always layered on top of the backend compose file):
 #   docker compose -f docker-compose-backend.yml -f docker-compose.sg.yml up -d
 #
-# DD_SERVICE / DD_LLMOBS_ML_APP already resolve to sg-hawker-guardrail from the
+# DD_SERVICE / DD_LLMOBS_ML_APP already resolve to sg-hawker-showdown from the
 # base file on this branch, so this override only pins the environment and the
 # container identity.
 services:

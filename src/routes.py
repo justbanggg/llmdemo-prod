@@ -1,6 +1,8 @@
-from flask import request, jsonify, render_template, redirect
+from flask import request, jsonify, render_template, redirect, abort
 from .config import log
 from .workflows import process_ctf_request
+
+QUIZ_IDS = ("laksa", "chicken-rice")
 
 
 def setup_routes(app):
@@ -22,6 +24,13 @@ def setup_routes(app):
     @app.route("/game")
     def game_ui():
         return render_template("ctf.html")
+
+    @app.route("/quiz/<quiz_id>")
+    @app.route("/quiz/<quiz_id>/<screen>")
+    def quiz_ui(quiz_id, screen=None):
+        if quiz_id not in QUIZ_IDS:
+            abort(404)
+        return render_template("quiz.html", quiz_id=quiz_id, screen=screen or "opening")
 
     @app.route("/menu")
     def menu_ui():

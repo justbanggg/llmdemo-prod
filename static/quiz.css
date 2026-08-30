@@ -100,6 +100,7 @@
   color: #ffffff;
   box-shadow: var(--shadow-button);
   cursor: pointer;
+  text-decoration: none;
   animation: quiz-cta-glow 1.15s ease 1.45s 1;
 }
 
@@ -209,6 +210,10 @@
   line-height: 1;
   box-shadow: var(--shadow-sm);
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .quiz-stage {
@@ -389,6 +394,25 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.quiz-complete-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+body.quiz-page .quiz-overlay {
+  position: relative;
+  inset: auto;
+  min-height: 100vh;
+  z-index: 1;
 }
 
 .quiz-primary {

@@ -29,13 +29,13 @@ _agentless = os.getenv("DD_LLMOBS_AGENTLESS_ENABLED", "false").lower() == "true"
 
 try:
     LLMObs.enable(
-        ml_app=os.getenv("DD_LLMOBS_ML_APP", "sg-hawker-guardrail"),
+        ml_app=os.getenv("DD_LLMOBS_ML_APP", "sg-hawker-showdown"),
         integrations_enabled=True,
         agentless_enabled=_agentless,
         site=os.getenv("DD_SITE", "datadoghq.com"),
         api_key=os.getenv("DD_API_KEY"),
         env=os.getenv("DD_ENV", "local"),
-        service=os.getenv("DD_SERVICE", "sg-hawker-guardrail"),
+        service=os.getenv("DD_SERVICE", "sg-hawker-showdown"),
     )
 except Exception as exc:
     logging.getLogger("llm-demo").error("Failed to enable Datadog LLM Observability: %s", exc)

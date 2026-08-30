@@ -404,6 +404,86 @@ li a:hover {
   border-color: var(--error-border);
 }
 
+.landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.25rem 2.5rem;
+}
+
+.landing-hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-card {
+  width: min(520px, 100%);
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 2.25rem 1.75rem 2rem;
+  box-shadow: var(--shadow-card);
+  animation: landingIn 0.7s ease;
+}
+
+@keyframes landingIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.landing-logo {
+  width: min(168px, 46vw);
+  height: auto;
+  margin: 0 auto 1.1rem;
+  display: block;
+  filter: drop-shadow(0 10px 18px rgba(83, 47, 25, 0.16));
+}
+
+.landing-title {
+  font-size: clamp(1.7rem, 5vw, 2.35rem);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.landing-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0 auto 1.75rem;
+  max-width: 26rem;
+}
+
+.landing-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.landing-form .name-input {
+  font-size: 0.95rem;
+  padding: 1rem 1.25rem;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.landing-start {
+  width: 100%;
+  margin-top: 1.25rem;
+  font-size: 1.05rem;
+  padding: 1rem 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .landing-card {
+    padding: 1.6rem 1.15rem 1.5rem;
+  }
+}
+
 .text-center { text-align: center; }
 .mt-1 { margin-top: 0.25rem; }
 .mt-2 { margin-top: 0.5rem; }

@@ -28,7 +28,7 @@
         applicationId: '599a68f2-d9b6-4476-af51-3d9b7f44472b',
         clientToken: 'pubf7b1e48b077e84c38611f4be83ea373a',
         site: 'datadoghq.com',
-        service: 'sg-hawker-guardrail',
+        service: 'sg-hawker-showdown',
         env: 'sg-production',
         version: '1.0.0',
         sessionSampleRate: 100,
@@ -88,14 +88,6 @@
       padding: 2rem;
     }
 
-    .ctf-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-    
     .ctf-header {
       padding: 0;
       border-radius: 24px;
@@ -545,29 +537,6 @@
       background: #F3E9D9;
     }
     
-    .back-btn {
-      position: static;
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: var(--shadow-card);
-    }
-    
-    .back-btn:hover {
-      background: var(--bg-highlight);
-      transform: translateX(-2px);
-      border-color: var(--border-medium);
-    }
-    
     /* Quick Prompts Styling */
     .quick-prompts-section {
       background: var(--bg-highlight);
@@ -696,12 +665,6 @@
 </head>
 <body>
   <div class="ctf-container">
-    <div class="ctf-topbar">
-      <a href="/" class="back-btn">
-        <span>←</span> <span>Back to Home</span>
-      </a>
-    </div>
-
     <div class="ctf-header">
       <h1 class="sr-only">Singapore Hawker Guardrail</h1>
       <img
@@ -985,20 +948,10 @@
             (view.subtitle ? '<div class="response-subtitle">' + view.subtitle + '</div>' : '') +
           '</div>' +
           '<div class="response-answer-quote">' + escapeHtml(result.answer || '') + '</div>' +
-          '<button type="button" class="quiz-launch-cta" data-quiz-id="' + drink + '" data-dd-action-name="quiz_cta_' + drink + '">' +
+          '<a class="quiz-launch-cta" href="/quiz/' + drink + '" data-dd-action-name="quiz_cta_' + drink + '">' +
             '<span class="quiz-launch-kicker">' + kicker + '</span>' +
             '<span class="quiz-launch-label">' + button + '</span>' +
-          '</button>';
-        const cta = responseOutput.querySelector('.quiz-launch-cta');
-        cta.addEventListener('click', function () {
-          if (window.QuizGame) {
-            window.QuizGame.launch(drink, {
-              onClose: function () {
-                challengeInput.focus();
-              }
-            });
-          }
-        });
+          '</a>';
         if (celebrate) {
           if (window.QuizGame) window.QuizGame.playCelebration(responseOutput);
           try {

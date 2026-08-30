@@ -1,53 +1,43 @@
-# RUM + Journey Monitoring — SG Hawker Guardrail
+# RUM + Journey Monitoring — SG Hawker Showdown
 
 RUM app ID: `599a68f2-d9b6-4476-af51-3d9b7f44472b`  
-Service: `sg-hawker-guardrail`  
+Service: `sg-hawker-showdown`  
 Dashboard: https://bang.datadoghq.com/dashboard/n4m-52n-kwr
 
-Journey Monitoring is Preview (no create-journey API). After demo traffic lands, create journeys in **Digital Experience → Journey Monitoring → New Journey**.
+Journey Monitoring is Preview (no create-journey API). Create or edit journeys in **[Digital Experience → Journey Monitoring](https://bang.datadoghq.com/digital-experience/journeys) → New Journey**.
+
+In the start/end pickers, choose **View name** (not URL path). Datadog groups `/quiz/laksa/step-1`…`step-5` as `/quiz/laksa/?`. The browser URL is still `/quiz/laksa/step-N`; `@view.name` is the exact string below. `/game` stays the URL even when the named view is `/game/result/laksa`.
+
+Do **not** use the old overlay names `/game/quiz/...`.
+
+## Datadog UI setup
+
+Frontend application: **SG Hawker Showdown** (`599a68f2-d9b6-4476-af51-3d9b7f44472b`). Frontend RUM `service` and `env` must match the backend: `sg-hawker-showdown` / `sg-production`.
+
+For each journey: name → start event → end event → optional variant → **Save Journey**. Edit existing journeys if they still end on `/game/quiz/...`.
+
+| Journey | Start (picker) | End (picker) | Variant steps (optional) |
+| --- | --- | --- | --- |
+| Enter the hawker | View `/` | View `/game` | — |
+| Win the Guardrail | View `/game` | Action `ctf_challenge_won` | Action `ctf_challenge_attempt` → View `/game/result/laksa` |
+| Guardrail held | View `/game` | Action `ctf_challenge_held` | Action `ctf_challenge_attempt` → View `/game/result/chicken-rice` |
+| Brew laksa | Action `ctf_challenge_won` | View `/quiz/laksa/complete` | Action `quiz_started` → View `/quiz/laksa/opening` → `/quiz/laksa/step-1` … `step-5` |
+| Brew chicken rice | Action `ctf_challenge_held` | View `/quiz/chicken-rice/complete` | Action `quiz_started` → View `/quiz/chicken-rice/opening` → `/quiz/chicken-rice/step-1` … `step-5` |
+
+Brew journeys **chain** off the guardrail journeys: brew start = previous journey end. Do not start brew at `quiz_started` or those tiles float off the map.
+
+Do **not** add the chicken-rice quiz as a second end on **Win the Guardrail**.
+
+After saving, run two sessions: Chicken allergy → laksa quiz, then Start Simple → chicken-rice quiz.
 
 ## Journey recipes
 
-Journeys **chain** when the next journey’s start is the previous journey’s end. Brew the Drink floated because it started at `quiz_started`.
-
-A win is always sữa đá. Trứng is the hold path. The map is a **Y**:
+A win is always laksa. Chicken rice is the hold path. The map is a **Y**:
 
 ```
-/game → Win the Guardrail → Brew sữa đá
-     → Guardrail held     → Brew trứng
+/  → /game → Win the Guardrail → /quiz/laksa/complete
+            → Guardrail held     → /quiz/chicken-rice/complete
 ```
-
-Frontend: **sg-hawker-guardrail**. Edit/replace the two existing journeys.
-
-### 1. Win the Guardrail
-
-- Start: view `/game`
-- End: action `ctf_challenge_won`
-- Variant: `/game` → `ctf_challenge_attempt` → `/game/result/sua-da` → `ctf_challenge_won`
-
-Do **not** add the egg quiz as a second end here, or conversion stops meaning “broke the guardrail.”
-
-### 2. Brew sữa đá (chains off a win)
-
-- Start: action `ctf_challenge_won`
-- End: view `/game/quiz/sua-da/complete`
-- Variant: `ctf_challenge_won` → `quiz_started` → `/game/quiz/sua-da/opening` → `step-1` … `step-5` → `/game/quiz/sua-da/complete`
-
-### 3. Guardrail held
-
-- Start: view `/game`
-- End: action `ctf_challenge_held`
-- Variant: `/game` → `ctf_challenge_attempt` → `/game/result/trung` → `ctf_challenge_held`
-
-### 4. Brew trứng (chains off a hold)
-
-- Start: action `ctf_challenge_held`
-- End: view `/game/quiz/trung/complete`
-- Variant: `ctf_challenge_held` → `quiz_started` → `/game/quiz/trung/opening` → `step-1` … `step-5` → `/game/quiz/trung/complete`
-
-After saving, run two human sessions: Egg Allergy → milk quiz, then Start Simple → egg quiz. On the MAP, **Brew sữa đá** should sit after **Win the Guardrail**, and **Brew trứng** after **Guardrail held**.
-
-Optional: **Enter the cafe** — view `/` → view `/game` — so the Y hangs off session start.
 
 If Journey Monitoring is not enabled, request access: https://www.datadoghq.com/product-preview/journey-monitoring/
 
@@ -65,9 +55,9 @@ Suggested browser test (Digital Experience → Synthetics → New Test):
 
 1. Go to `/`
 2. Type a name (for example `synthetics`)
-3. Click **Start Your Journey**
-4. On `/game`, click **Egg Allergy** then **Attempt Challenge**
-5. Optionally open the quiz CTA so the journey stays green
+3. Click **Start your journey**
+4. On `/game`, click a chicken-allergy prompt then **Attempt Challenge**
+5. Click the brew CTA so the browser navigates to `/quiz/laksa`
 
 Leave RUM collection on if you want Journey Monitoring to see the synthetic path; winner widgets still ignore it. Attach the test to the journey's test suite for uptime.
 
@@ -81,14 +71,15 @@ Leave RUM collection on if you want Journey Monitoring to see the synthetic path
 ### Challenge
 
 - `ctf_challenge_attempt` — every submit (`success` true/false, `verdict`)
-- `ctf_challenge_won` — additional action when iced milk coffee is recommended (`valid_break`)
-- Click on the challenge button uses `data-dd-action-name="attempt_challenge"` (VI/EN-safe)
+- `ctf_challenge_won` — additional action when laksa is recommended (`valid_break`)
+- Click on the challenge button uses `data-dd-action-name="attempt_challenge"`
 
 ### Quiz
 
 - `quiz_cta_shown`, `quiz_started`, `quiz_step_answered`, `quiz_completed`
-- Views: `/game/quiz/{sua-da|trung}/opening` / `step-1`…`step-5` / `complete`
-- After an AI answer: view `/game/result/sua-da` or `/game/result/trung`
+- Real pages: `/quiz/laksa` and `/quiz/chicken-rice` (full navigation off `/game`)
+- Views: `/quiz/{laksa|chicken-rice}/opening` / `step-1`…`step-5` / `complete`
+- After an AI answer: view `/game/result/laksa` or `/game/result/chicken-rice`
 
 ### Winner action attributes
 
@@ -132,7 +123,7 @@ Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @s
 ## LLM Observability
 
 ```
-@ml_app:sg-hawker-guardrail @name:process_ctf_request
-@ml_app:sg-hawker-guardrail @name:process_ctf_request ctf.challenge_status:completed
-@ml_app:sg-hawker-guardrail @name:process_ctf_request ctf.challenge_status:failed
+@ml_app:sg-hawker-showdown @name:process_ctf_request
+@ml_app:sg-hawker-showdown @name:process_ctf_request ctf.challenge_status:completed
+@ml_app:sg-hawker-showdown @name:process_ctf_request ctf.challenge_status:failed
 ```

@@ -7,7 +7,8 @@
     tryAnother: "TRY ANOTHER",
     guessAgain: "GUESS AGAIN",
     bloom: "…blooming…",
-    close: "Close quiz",
+    close: "Return to game",
+    returnToGame: "Return to game",
     notQuite: "NOT QUITE!",
     tryAnotherBody: "Try another.",
     quizLabel: "Hawker quiz"
@@ -312,11 +313,28 @@
     return QUIZZES[state.quizId];
   }
 
+  function isPageMode() {
+    return document.body.classList.contains("quiz-page");
+  }
+
   function viewName(screen) {
-    return "/game/quiz/" + quiz().rumKey + "/" + screen;
+    return "/quiz/" + quiz().rumKey + "/" + screen;
+  }
+
+  function syncUrl(screen) {
+    if (!isPageMode() || !quiz()) return;
+    var path = viewName(screen);
+    if (window.location.pathname === path) return;
+    var payload = { quiz: quiz().rumKey, screen: screen };
+    if (!window.history.state || window.history.state.quiz !== quiz().rumKey) {
+      history.replaceState(payload, "", path);
+    } else {
+      history.pushState(payload, "", path);
+    }
   }
 
   function startView(screen) {
+    syncUrl(screen);
     rum(function (r) {
       if (typeof r.startView === "function") {
         r.startView({ name: viewName(screen) });
@@ -329,6 +347,7 @@
   }
 
   function restoreGameView() {
+    if (isPageMode()) return;
     rum(function (r) {
       if (typeof r.startView === "function") {
         r.startView({ name: "/game" });
@@ -416,12 +435,17 @@
   }
 
   function shell(inner) {
+    var closeCtl = isPageMode()
+      ? '<a class="quiz-close" href="/game" data-dd-action-name="quiz_return_game" aria-label="' + esc(tx(CHROME.close)) + '">×</a>'
+      : '<button type="button" class="quiz-close" data-quiz-close aria-label="' + esc(tx(CHROME.close)) + '">×</button>';
     return (
-      '<div class="quiz-overlay" role="dialog" aria-modal="true" aria-label="' + esc(tx(CHROME.quizLabel)) + '">' +
+      '<div class="quiz-overlay" role="' + (isPageMode() ? "main" : "dialog") + '"' +
+        (isPageMode() ? "" : ' aria-modal="true"') +
+        ' aria-label="' + esc(tx(CHROME.quizLabel)) + '">' +
         '<div class="quiz-shell">' +
           '<div class="quiz-topbar">' +
             '<div class="quiz-progress" aria-hidden="true">' + progressHtml() + "</div>" +
-            '<button type="button" class="quiz-close" data-quiz-close aria-label="' + esc(tx(CHROME.close)) + '">×</button>' +
+            closeCtl +
           "</div>" +
           '<div class="quiz-stage">' + inner + "</div>" +
         "</div>" +
@@ -491,9 +515,14 @@
         '<p class="quiz-subcopy">' + esc(tx(q.result.brewLine)) + "</p>" +
         '<div class="quiz-stars">' + esc(q.result.stars) + "</div>" +
         statsHtml(q.result.stats) +
-        '<button type="button" class="quiz-primary" data-quiz-again data-dd-action-name="quiz_guess_again">' +
-          esc(tx(CHROME.guessAgain)) +
-        "</button>"
+        '<div class="quiz-complete-actions">' +
+          '<a class="quiz-primary" href="/game" data-dd-action-name="quiz_return_game">' +
+            esc(tx(CHROME.returnToGame)) +
+          "</a>" +
+          '<button type="button" class="quiz-secondary" data-quiz-again data-dd-action-name="quiz_guess_again">' +
+            esc(tx(CHROME.guessAgain)) +
+          "</button>" +
+        "</div>"
       );
     } else {
       html = shell(stepInnerHtml());
@@ -740,8 +769,8 @@
     state.feedback = null;
     onCloseCallback = typeof opts.onClose === "function" ? opts.onClose : null;
     ensureRoot().hidden = false;
-    document.body.classList.add("quiz-open");
-    addAction("quiz_started", { quiz: quizId, source: "cta" });
+    if (!isPageMode()) document.body.classList.add("quiz-open");
+    addAction("quiz_started", { quiz: quizId, source: isPageMode() ? "page" : "cta" });
     render();
     document.addEventListener("keydown", onKey);
   }
@@ -767,6 +796,10 @@
   function close() {
     stopJourneyVital();
     document.removeEventListener("keydown", onKey);
+    if (isPageMode()) {
+      window.location.href = "/game";
+      return;
+    }
     document.body.classList.remove("quiz-open");
     if (root) {
       root.hidden = true;
@@ -812,4 +845,16 @@
     playCelebration: playCelebration,
     ids: { laksa: "laksa", rice: "chicken-rice" }
   };
+
+  function quizIdFromPath() {
+    var match = window.location.pathname.match(/^\/quiz\/(laksa|chicken-rice)(?:\/|$)/);
+    return match ? match[1] : null;
+  }
+
+  if (isPageMode()) {
+    var pageQuizId = document.body.getAttribute("data-quiz-id") || quizIdFromPath();
+    if (pageQuizId && QUIZZES[pageQuizId]) {
+      launch(pageQuizId);
+    }
+  }
 })(window);
