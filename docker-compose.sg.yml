@@ -10,7 +10,7 @@ services:
   app:
     container_name: llm-sg-app
     environment:
-      - DD_ENV=sg-production
+      - DD_ENV=production
 
     # /menu 302-redirects to /game, and GCP health checks only accept 2xx.
     healthcheck:
@@ -23,7 +23,7 @@ services:
   datadog:
     container_name: datadog-sg
     environment:
-      - DD_ENV=sg-production
+      - DD_ENV=production
       - DD_TAGS=market:sg
 
 networks:

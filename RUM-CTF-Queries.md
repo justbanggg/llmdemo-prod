@@ -12,7 +12,7 @@ Do **not** use the old overlay names `/game/quiz/...`.
 
 ## Datadog UI setup
 
-Frontend application: **SG Hawker Showdown** (`599a68f2-d9b6-4476-af51-3d9b7f44472b`). Frontend RUM `service` and `env` must match the backend: `sg-hawker-showdown` / `sg-production`.
+Frontend application: **SG Hawker Showdown** (`599a68f2-d9b6-4476-af51-3d9b7f44472b`). Frontend RUM `service` and `env` must match the backend: `sg-hawker-showdown` / `production`.
 
 For each journey: name → start event → end event → optional variant → **Save Journey**. Edit existing journeys if they still end on `/game/quiz/...`.
 
