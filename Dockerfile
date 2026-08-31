@@ -5,10 +5,10 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     DD_LLMOBS_ENABLED=1 \
-    DD_LLMOBS_ML_APP=hanoi-coffee-guardrail \
-    DD_SERVICE=hanoi-coffee-guardrail \
+    DD_LLMOBS_ML_APP=sg-hawker-showdown \
+    DD_SERVICE=sg-hawker-showdown \
     DD_LLMOBS_AGENTLESS_ENABLED=false \
-    DD_ENV=local \
+    DD_ENV=sg-production \
     DD_TRACE_ENABLED=true \
     DD_LOGS_INJECTION=true \
     DD_VERSION=1.0.0

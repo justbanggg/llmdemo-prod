@@ -1,10 +1,10 @@
-# VN market override for the Vietnam deployment (vn.dd-demo-sg-llm.com).
+# VN market override for the Vietnam host (vn.dd-demo-sg-llm.com).
 #
-# Usage (always layered on top of the backend compose file):
+# Do not apply this overlay to the Singapore hawker branch. It would stamp
+# hawker traces as Vietnam. Use it only on the Hanoi coffee VM/branch:
 #   docker compose -f docker-compose-backend.yml -f docker-compose.vn.yml up -d
 #
-# Keeps VN telemetry in its own Datadog service so it never merges with the
-# Singapore prod fleet, which reports as `hanoi-coffee-guardrail`.
+# Singapore hawker reports as sg-hawker-showdown / sg-production.
 services:
   app:
     container_name: llm-vn-app

@@ -12,7 +12,8 @@ services:
       # Datadog Core Configuration
       - DD_SITE=datadoghq.com
       - DD_SERVICE=sg-hawker-showdown
-      - DD_ENV=production
+      - DD_ENV=sg-production
+      - DD_VERSION=1.0.0
       - DD_TRACE_ENABLED=true
       - DD_AGENT_HOST=datadog
       
@@ -25,11 +26,11 @@ services:
       - DD_APPSEC_ENABLED=true
       - DD_APPSEC_WAF_TIMEOUT=10000
       
-      # AI Guard: monitor-only. Do not block the live game.
+      # AI Guard: DENY/ABORT skip the model. Allergy prompts stay ALLOW.
       - DD_API_KEY=${DD_API_KEY}
       - DD_APP_KEY=${DD_APP_KEY}
       - DD_AI_GUARD_ENABLED=${DD_AI_GUARD_ENABLED:-true}
-      - DD_AI_GUARD_BLOCK=false
+      - DD_AI_GUARD_BLOCK=${DD_AI_GUARD_BLOCK:-true}
       
       # Eppo Feature Flag Configuration (controls AI Guard dynamically)
       - EPPO_API_KEY=${EPPO_API_KEY}

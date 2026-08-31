@@ -1,3 +1,5 @@
+import os
+
 from flask import request, jsonify, render_template, redirect, abort
 from .config import log
 from .workflows import process_ctf_request
@@ -7,7 +9,15 @@ QUIZ_IDS = ("laksa", "chicken-rice")
 
 def setup_routes(app):
     """Setup all Flask routes"""
-    
+
+    @app.context_processor
+    def datadog_rum():
+        return {
+            "dd_service": os.getenv("DD_SERVICE", "sg-hawker-showdown"),
+            "dd_env": os.getenv("DD_ENV", "sg-production"),
+            "dd_version": os.getenv("DD_VERSION", "1.0.0"),
+        }
+
     @app.before_request
     def _log_request():
         log.info("%s %s from %s", request.method, request.path, request.remote_addr)

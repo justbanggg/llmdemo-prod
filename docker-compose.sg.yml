@@ -3,14 +3,16 @@
 # Usage (always layered on top of the backend compose file):
 #   docker compose -f docker-compose-backend.yml -f docker-compose.sg.yml up -d
 #
-# DD_SERVICE / DD_LLMOBS_ML_APP already resolve to sg-hawker-showdown from the
-# base file on this branch, so this override only pins the environment and the
-# container identity.
+# Same Datadog identity as laptop and the other SG compose files:
+# sg-hawker-showdown / sg-production / 1.0.0.
 services:
   app:
     container_name: llm-sg-app
     environment:
-      - DD_ENV=production
+      - DD_SERVICE=sg-hawker-showdown
+      - DD_LLMOBS_ML_APP=sg-hawker-showdown
+      - DD_ENV=sg-production
+      - DD_VERSION=1.0.0
 
     # /menu 302-redirects to /game, and GCP health checks only accept 2xx.
     healthcheck:
@@ -23,7 +25,7 @@ services:
   datadog:
     container_name: datadog-sg
     environment:
-      - DD_ENV=production
+      - DD_ENV=sg-production
       - DD_TAGS=market:sg
 
 networks:

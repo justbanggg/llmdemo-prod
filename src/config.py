@@ -8,8 +8,15 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 os.environ.setdefault("DD_AGENT_HOST", "127.0.0.1")
 os.environ.setdefault("DD_TRACE_AGENT_PORT", "18126")
-# Monitor-only: never block the hawker game on AI Guard DENY/ABORT.
-os.environ.setdefault("DD_AI_GUARD_BLOCK", "false")
+# Same identity on laptop and SG deploy so traces, RUM, AI Guard, and
+# Prompt Management (Feature Flags env = DD_ENV) stay on one Singapore app.
+os.environ.setdefault("DD_SERVICE", "sg-hawker-showdown")
+os.environ.setdefault("DD_LLMOBS_ML_APP", "sg-hawker-showdown")
+os.environ.setdefault("DD_ENV", "sg-production")
+os.environ.setdefault("DD_VERSION", "1.0.0")
+# Honor DENY/ABORT in the hawker game (skip the model). Remote Datadog
+# blocking policy can stay monitor-only; we enforce the decision here.
+os.environ.setdefault("DD_AI_GUARD_BLOCK", "true")
 os.environ.setdefault("DD_AI_GUARD_ENABLED", "true")
 
 import ddtrace
@@ -34,7 +41,7 @@ try:
         agentless_enabled=_agentless,
         site=os.getenv("DD_SITE", "datadoghq.com"),
         api_key=os.getenv("DD_API_KEY"),
-        env=os.getenv("DD_ENV", "local"),
+        env=os.getenv("DD_ENV", "sg-production"),
         service=os.getenv("DD_SERVICE", "sg-hawker-showdown"),
     )
 except Exception as exc:
@@ -91,32 +98,56 @@ def _get_ai_guard_client():
     return _ai_guard_client
 
 
+def _ai_guard_block_enabled():
+    return os.getenv("DD_AI_GUARD_BLOCK", "true").lower() == "true"
+
+
 def evaluate_prompt_with_ai_guard(system_context, user_msg):
-    """Create an `ai_guard` APM span. Never blocks the hawker game."""
+    """Evaluate the prompt. Returns {action, reason, tags} or None if unavailable.
+
+    Uses Options(block=False) so the SDK always returns the decision. The
+    hawker game then skips the model when action is DENY/ABORT and blocking
+    is on. Datadog's org policy is often monitor-only (`is_blocking_enabled`
+    false), which would otherwise swallow DENY.
+    """
     client = _get_ai_guard_client()
     if client is None:
-        return
+        return None
     try:
         from ddtrace.appsec.ai_guard import Message, Options
 
-        client.evaluate(
+        result = client.evaluate(
             [
                 Message(role="system", content=system_context),
                 Message(role="user", content=user_msg),
             ],
             Options(block=False),
         )
+        action = str((result or {}).get("action") or "ALLOW").upper()
+        tags = list((result or {}).get("tags") or [])
+        reason = (result or {}).get("reason") or ""
+        log.info("AI Guard action=%s reason=%s tags=%s", action, reason, tags)
+        return {"action": action, "reason": reason, "tags": tags}
     except Exception as exc:
         log.warning("AI Guard evaluation failed; continuing without blocking: %s", exc)
+        return None
+
+
+def ai_guard_should_block(guard):
+    if not guard or not _ai_guard_block_enabled():
+        return False
+    return guard.get("action") in ("DENY", "ABORT")
 
 
 log.info(
-    "Datadog LLM Observability enabled=%s agentless=%s site=%s ml_app=%s service=%s agent_host=%s ai_guard=%s ai_guard_block=%s",
+    "Datadog LLM Observability enabled=%s agentless=%s site=%s ml_app=%s service=%s env=%s version=%s agent_host=%s ai_guard=%s ai_guard_block=%s",
     getattr(LLMObs, "enabled", False),
     os.getenv("DD_LLMOBS_AGENTLESS_ENABLED"),
     os.getenv("DD_SITE"),
     os.getenv("DD_LLMOBS_ML_APP"),
     os.getenv("DD_SERVICE"),
+    os.getenv("DD_ENV"),
+    os.getenv("DD_VERSION"),
     os.getenv("DD_AGENT_HOST"),
     os.getenv("DD_AI_GUARD_ENABLED"),
     os.getenv("DD_AI_GUARD_BLOCK"),

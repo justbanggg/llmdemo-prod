@@ -1,42 +1,55 @@
 # RUM + Journey Monitoring — SG Hawker Showdown
 
-RUM app ID: `599a68f2-d9b6-4476-af51-3d9b7f44472b`  
-Service: `sg-hawker-showdown`  
+Laptop and `sg.dd-demo-sg-llm.com` use the same Datadog identity. Host name may differ; tags must not.
+
+| Surface | Singapore (local and deploy) |
+| --- | --- |
+| RUM app | **Singapore Hawker Showdown** (`599a68f2-d9b6-4476-af51-3d9b7f44472b`) |
+| `service` / `ml_app` | `sg-hawker-showdown` |
+| `env` (APM, RUM, Feature Flags) | `sg-production` |
+| `version` | `1.0.0` |
+| Prompt | `sg-hawker-recommender` deployed to Feature Flags env `sg-production` |
+| AI Guard | service `sg-hawker-showdown` |
+
+Do not filter SG on `env:production` or leftover services `hanoi-coffee-guardrail` / `sg-hawker-guardrail`. Vietnam is a separate host (`hanoi-coffee-guardrail-vn` / `vn-production`).
+
 Dashboard: https://bang.datadoghq.com/dashboard/n4m-52n-kwr
 
 Journey Monitoring is Preview (no create-journey API). Create or edit journeys in **[Digital Experience → Journey Monitoring](https://bang.datadoghq.com/digital-experience/journeys) → New Journey**.
 
-In the start/end pickers, choose **View name** (not URL path). Datadog groups `/quiz/laksa/step-1`…`step-5` as `/quiz/laksa/?`. The browser URL is still `/quiz/laksa/step-N`; `@view.name` is the exact string below. `/game` stays the URL even when the named view is `/game/result/laksa`.
+In the start/end pickers, choose **View name** (not URL path). Datadog groups `/quiz/laksa/step-1`…`step-5` as `/quiz/laksa/?` — do not pick the grouped `/?` name; it will not match `@view.name`. `/game` stays the URL even when the named view is `/game/result/laksa`.
 
 Do **not** use the old overlay names `/game/quiz/...`.
 
 ## Datadog UI setup
 
-Frontend application: **SG Hawker Showdown** (`599a68f2-d9b6-4476-af51-3d9b7f44472b`). Frontend RUM `service` and `env` must match the backend: `sg-hawker-showdown` / `production`.
+Frontend application: **Singapore Hawker Showdown** (`599a68f2-d9b6-4476-af51-3d9b7f44472b`). RUM `service`, `env`, and `version` come from `DD_SERVICE` / `DD_ENV` / `DD_VERSION` and must match the backend: `sg-hawker-showdown` / `sg-production` / `1.0.0`.
 
-For each journey: name → start event → end event → optional variant → **Save Journey**. Edit existing journeys if they still end on `/game/quiz/...`.
+[Step 2](https://docs.datadoghq.com/journey_monitoring/#step-2---specify-journey-details) is only: app → name → **start event(s)** → **end event(s)** → Save. The [map](https://docs.datadoghq.com/journey_monitoring/map/) nodes are **pages or journeys**. Two journeys get a connecting line only when they share a **view** (the end of one is the start of the next). Actions do not create map edges. [Variants](https://docs.datadoghq.com/journey_monitoring/details_report/variants/) are a filter on steps *inside* one journey; they never link two journeys.
 
-| Journey | Start (picker) | End (picker) | Variant steps (optional) |
+For each journey: name → one start **View** → one end **View** → optional short variant → **Save Journey**. Edit Win/Brew if they still start or end on `ctf_challenge_won` / `ctf_challenge_held`.
+
+| Journey | Start (View) | End (View) | Variant (optional, keep short) |
 | --- | --- | --- | --- |
-| Enter the hawker | View `/` | View `/game` | — |
-| Win the Guardrail | View `/game` | Action `ctf_challenge_won` | Action `ctf_challenge_attempt` → View `/game/result/laksa` |
-| Guardrail held | View `/game` | Action `ctf_challenge_held` | Action `ctf_challenge_attempt` → View `/game/result/chicken-rice` |
-| Brew laksa | Action `ctf_challenge_won` | View `/quiz/laksa/complete` | Action `quiz_started` → View `/quiz/laksa/opening` → `/quiz/laksa/step-1` … `step-5` |
-| Brew chicken rice | Action `ctf_challenge_held` | View `/quiz/chicken-rice/complete` | Action `quiz_started` → View `/quiz/chicken-rice/opening` → `/quiz/chicken-rice/step-1` … `step-5` |
+| Enter the hawker | `/` | `/game` | — |
+| Win the Guardrail | `/game` | `/quiz/laksa/opening` | Action `ctf_challenge_won` |
+| Guardrail held | `/game` | `/quiz/chicken-rice/opening` | Action `ctf_challenge_held` |
+| Brew laksa | `/quiz/laksa/opening` | `/quiz/laksa/complete` | Action `quiz_begin` |
+| Brew chicken rice | `/quiz/chicken-rice/opening` | `/quiz/chicken-rice/complete` | Action `quiz_begin` |
 
-Brew journeys **chain** off the guardrail journeys: brew start = previous journey end. Do not start brew at `quiz_started` or those tiles float off the map.
+If `/quiz/laksa/opening` is missing from the picker, use View `/quiz/laksa` for both Win end and Brew start (same idea for chicken-rice).
 
-Do **not** add the chicken-rice quiz as a second end on **Win the Guardrail**.
+Do **not** start Brew on action `ctf_challenge_won`. Do **not** add step-1…step-5 as variant steps (the picker’s `/quiz/laksa/?` does not match). Do **not** add the chicken-rice quiz as a second end on **Win the Guardrail**.
 
-After saving, run two sessions: Chicken allergy → laksa quiz, then Start Simple → chicken-rice quiz.
+After saving, run two sessions: Chicken allergy → open the laksa quiz, then Start Simple → open the chicken-rice quiz.
 
 ## Journey recipes
 
-A win is always laksa. Chicken rice is the hold path. The map is a **Y**:
+A win is always laksa. Chicken rice is the hold path. The map is a **Y** of **pages**:
 
 ```
-/  → /game → Win the Guardrail → /quiz/laksa/complete
-            → Guardrail held     → /quiz/chicken-rice/complete
+/  → /game → /quiz/laksa/opening           → /quiz/laksa/complete
+            → /quiz/chicken-rice/opening   → /quiz/chicken-rice/complete
 ```
 
 If Journey Monitoring is not enabled, request access: https://www.datadoghq.com/product-preview/journey-monitoring/
@@ -87,7 +100,7 @@ Leave RUM collection on if you want Journey Monitoring to see the synthetic path
 
 ## Dashboard and Explorer queries
 
-Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @session.type:user`.
+Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @session.type:user env:sg-production`.
 
 ### Winners
 
@@ -123,7 +136,13 @@ Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @s
 ## LLM Observability
 
 ```
-@ml_app:sg-hawker-showdown @name:process_ctf_request
-@ml_app:sg-hawker-showdown @name:process_ctf_request ctf.challenge_status:completed
-@ml_app:sg-hawker-showdown @name:process_ctf_request ctf.challenge_status:failed
+@ml_app:sg-hawker-showdown env:sg-production @name:process_ctf_request
+@ml_app:sg-hawker-showdown env:sg-production @name:process_ctf_request ctf.challenge_status:completed
+@ml_app:sg-hawker-showdown env:sg-production @name:process_ctf_request ctf.challenge_status:failed
+```
+
+### AI Guard
+
+```
+service:sg-hawker-showdown env:sg-production operation_name:ai_guard
 ```
