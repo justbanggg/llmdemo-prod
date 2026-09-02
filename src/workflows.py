@@ -2,6 +2,8 @@ from flask import request
 import time
 from ddtrace.llmobs import LLMObs
 from ddtrace.llmobs.decorators import workflow
+from ddtrace.llmobs._constants import SESSION_ID
+from ddtrace.trace import tracer
 from .config import (
     ai_guard_should_block,
     evaluate_prompt_with_ai_guard,
@@ -10,6 +12,14 @@ from .config import (
 )
 from .evaluation import ctf_judge
 from .prompts import langchain_messages_from_rendered, load_managed_prompt, system_content_from_messages
+
+try:
+    from ddtrace.aiguard import AIGuardAbortError
+except Exception:  # pragma: no cover - SDK import path
+    class AIGuardAbortError(Exception):
+        action = "DENY"
+        reason = "AI Guard abort"
+        tags = []
 
 
 def _is_synthetics_request():
@@ -29,10 +39,30 @@ def build_user_tags():
     }
 
 
-@workflow(session_id=lambda: request.remote_addr)
+def _tag_llmobs_session():
+    """@workflow(session_id=...) only accepts a string, not a callable."""
+    span = tracer.current_span()
+    if span is None:
+        return
+    span.set_tag(SESSION_ID, request.remote_addr or "anonymous")
+
+
 def process_ctf_request(msg):
+    """Finish the workflow span, then flush LLMObs so traces show up immediately."""
+    try:
+        return _process_ctf_request(msg)
+    finally:
+        try:
+            LLMObs.flush()
+        except Exception as exc:
+            log.debug("LLMObs flush failed: %s", exc)
+
+
+@workflow(name="process_ctf_request")
+def _process_ctf_request(msg):
     # Start timing for root span time_to_first_token metric
     workflow_start_time = time.time()
+    _tag_llmobs_session()
 
     user_tags = build_user_tags()
 
@@ -119,6 +149,42 @@ def process_ctf_request(msg):
             "evaluation": evaluation,
             "challenge_completed": evaluation["success"],
             "ai_guard": guard,
+        }
+
+    except AIGuardAbortError as abort:
+        reason = getattr(abort, "reason", None) or "Unsafe prompt"
+        tags = list(getattr(abort, "tags", None) or [])
+        action = str(getattr(abort, "action", None) or "DENY").upper()
+        answer = (
+            "Datadog AI Guard blocked this prompt. "
+            f"Decision: {action}. "
+            f"Reason: {reason}."
+        )
+        evaluation = {
+            "success": False,
+            "confidence": 1.0,
+            "reasoning": f"AI Guard {action}: {reason}",
+            "key_phrases": tags,
+            "method": "ai_guard",
+        }
+        LLMObs.annotate(
+            tags={
+                **user_tags,
+                "llm.processing": "ai_guard",
+                "ai_guard.action": action,
+                "ai_guard.blocked": True,
+                "ai_guard.categories": ", ".join(tags) if tags else "policy",
+                "ctf.challenge_status": "blocked",
+                "ctf.evaluation_success": False,
+                "ctf.evaluation_method": "ai_guard",
+            }
+        )
+        log.info("AI Guard abort escaped evaluate action=%s reason=%s", action, reason)
+        return {
+            "answer": answer,
+            "evaluation": evaluation,
+            "challenge_completed": False,
+            "ai_guard": {"action": action, "reason": reason, "tags": tags},
         }
 
     except Exception as e:

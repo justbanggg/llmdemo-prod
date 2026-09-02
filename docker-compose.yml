@@ -16,6 +16,7 @@ services:
       - DD_VERSION=1.0.0
       - DD_TRACE_ENABLED=true
       - DD_AGENT_HOST=datadog
+      - DD_TRACE_AGENT_PORT=8126
       
       # Datadog LLM Observability (for modular workflows)
       - DD_LLMOBS_ENABLED=1
@@ -90,6 +91,7 @@ services:
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
       - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
       - DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_GRPC_ENDPOINT=0.0.0.0:4317
       - DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_HTTP_ENDPOINT=0.0.0.0:4318

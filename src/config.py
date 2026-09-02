@@ -7,7 +7,13 @@ from dotenv import load_dotenv
 # are visible when the tracer and AI Guard client are constructed.
 load_dotenv(override=True)
 os.environ.setdefault("DD_AGENT_HOST", "127.0.0.1")
-os.environ.setdefault("DD_TRACE_AGENT_PORT", "18126")
+# Laptop compose publishes the Agent on 18126. Sidecar Agents listen on 8126
+# inside Docker — never stamp 18126 when DD_AGENT_HOST is the sidecar name.
+_agent_host = os.environ.get("DD_AGENT_HOST", "127.0.0.1")
+if _agent_host in ("127.0.0.1", "localhost"):
+    os.environ.setdefault("DD_TRACE_AGENT_PORT", "18126")
+else:
+    os.environ.setdefault("DD_TRACE_AGENT_PORT", "8126")
 # Same identity on laptop and SG deploy so traces, RUM, AI Guard, and
 # Prompt Management (Feature Flags env = DD_ENV) stay on one Singapore app.
 os.environ.setdefault("DD_SERVICE", "sg-hawker-showdown")
@@ -89,8 +95,9 @@ def _get_ai_guard_client():
         log.info("AI Guard SDK disabled by DD_AI_GUARD_ENABLED")
         return None
     try:
-        from ddtrace.appsec.ai_guard import new_ai_guard_client
+        from ddtrace.aiguard import new_ai_guard_client
 
+        _honor_local_ai_guard_block_option()
         _ai_guard_client = new_ai_guard_client()
     except Exception as exc:
         log.warning("AI Guard client unavailable: %s", exc)
@@ -102,35 +109,99 @@ def _ai_guard_block_enabled():
     return os.getenv("DD_AI_GUARD_BLOCK", "true").lower() == "true"
 
 
+def _honor_local_ai_guard_block_option():
+    """Tag @ai_guard.blocked:true when Options(block=True) even if org policy is monitor-only.
+
+    ddtrace only sets the blocked tag when the remote is_blocking_enabled flag is
+    true. The AI Guard UI's Blocked view filters on that tag, so monitor-only
+    DENYs look empty even though the game skipped the model.
+    """
+    from ddtrace.aiguard._api_client import AIGuardClient
+
+    if getattr(AIGuardClient, "_sg_honor_local_block", False):
+        return
+
+    original = AIGuardClient._is_blocking_enabled
+
+    def _is_blocking_enabled(options, remote_enabled):
+        if options is not None and options.get("block") is True:
+            return True
+        return original(options, remote_enabled)
+
+    AIGuardClient._is_blocking_enabled = staticmethod(_is_blocking_enabled)
+    AIGuardClient._sg_honor_local_block = True
+
+
+def _export_ai_guard_trace():
+    """Keep and flush the request trace so AI Guard spans are indexed."""
+    try:
+        from ddtrace.aiguard._trace_utils import _aiguard_manual_keep
+        from ddtrace.trace import tracer
+
+        root = tracer.current_root_span()
+        if root is not None:
+            _aiguard_manual_keep(root)
+            root.set_tag("ai_guard.event", "true")
+        # Do not tracer.flush() here: the @workflow span is still open and LLMObs
+        # rides the APM trace. Flushing mid-request drops or orphans LLM spans.
+    except Exception as exc:
+        log.debug("AI Guard trace keep failed: %s", exc)
+
+
+def _guard_result(action, reason, tags):
+    return {
+        "action": str(action or "ALLOW").upper(),
+        "reason": reason or "",
+        "tags": list(tags or []),
+    }
+
+
 def evaluate_prompt_with_ai_guard(system_context, user_msg):
     """Evaluate the prompt. Returns {action, reason, tags} or None if unavailable.
 
-    Uses Options(block=False) so the SDK always returns the decision. The
-    hawker game then skips the model when action is DENY/ABORT and blocking
-    is on. Datadog's org policy is often monitor-only (`is_blocking_enabled`
-    false), which would otherwise swallow DENY.
+    When DD_AI_GUARD_BLOCK is on, the SDK records @ai_guard.blocked:true on DENY
+    and raises AIGuardAbortError (a BaseException). Catch that and return the
+    decision so the hawker game can skip the model without crashing Flask.
     """
     client = _get_ai_guard_client()
     if client is None:
         return None
     try:
-        from ddtrace.appsec.ai_guard import Message, Options
+        from ddtrace.aiguard import AIGuardAbortError, Message, Options
 
-        result = client.evaluate(
-            [
-                Message(role="system", content=system_context),
-                Message(role="user", content=user_msg),
-            ],
-            Options(block=False),
+        system_for_guard = system_context or ""
+        if AI_GUARD_EVALUATION_CONTEXT and AI_GUARD_EVALUATION_CONTEXT not in system_for_guard:
+            system_for_guard = f"{AI_GUARD_EVALUATION_CONTEXT}\n\n{system_for_guard}"
+
+        messages = [
+            Message(role="system", content=system_for_guard),
+            Message(role="user", content=user_msg),
+        ]
+        options = Options(block=_ai_guard_block_enabled())
+        try:
+            result = client.evaluate(messages, options)
+        except AIGuardAbortError as abort:
+            guard = _guard_result(abort.action, abort.reason, abort.tags)
+            log.info(
+                "AI Guard action=%s reason=%s tags=%s blocked=true",
+                guard["action"],
+                guard["reason"],
+                guard["tags"],
+            )
+            return guard
+
+        guard = _guard_result(
+            (result or {}).get("action"),
+            (result or {}).get("reason"),
+            (result or {}).get("tags"),
         )
-        action = str((result or {}).get("action") or "ALLOW").upper()
-        tags = list((result or {}).get("tags") or [])
-        reason = (result or {}).get("reason") or ""
-        log.info("AI Guard action=%s reason=%s tags=%s", action, reason, tags)
-        return {"action": action, "reason": reason, "tags": tags}
-    except Exception as exc:
-        log.warning("AI Guard evaluation failed; continuing without blocking: %s", exc)
+        log.info("AI Guard action=%s reason=%s tags=%s", guard["action"], guard["reason"], guard["tags"])
+        return guard
+    except Exception as orig:
+        log.warning("AI Guard evaluation failed; continuing without blocking: %s", orig)
         return None
+    finally:
+        _export_ai_guard_trace()
 
 
 def ai_guard_should_block(guard):
@@ -140,7 +211,7 @@ def ai_guard_should_block(guard):
 
 
 log.info(
-    "Datadog LLM Observability enabled=%s agentless=%s site=%s ml_app=%s service=%s env=%s version=%s agent_host=%s ai_guard=%s ai_guard_block=%s",
+    "Datadog LLM Observability enabled=%s agentless=%s site=%s ml_app=%s service=%s env=%s version=%s agent_host=%s agent_port=%s ai_guard=%s ai_guard_block=%s",
     getattr(LLMObs, "enabled", False),
     os.getenv("DD_LLMOBS_AGENTLESS_ENABLED"),
     os.getenv("DD_SITE"),
@@ -149,6 +220,7 @@ log.info(
     os.getenv("DD_ENV"),
     os.getenv("DD_VERSION"),
     os.getenv("DD_AGENT_HOST"),
+    os.getenv("DD_TRACE_AGENT_PORT"),
     os.getenv("DD_AI_GUARD_ENABLED"),
     os.getenv("DD_AI_GUARD_BLOCK"),
 )

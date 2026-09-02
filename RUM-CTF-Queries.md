@@ -135,14 +135,27 @@ Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @s
 
 ## LLM Observability
 
+Open **LLM Observability → Traces** (not APM, not Sessions until a real session id is set). Filter:
+
+`@ml_app:sg-hawker-showdown env:sg-production`
+
+Direct: [sg-hawker-showdown traces](https://bang.datadoghq.com/llm/traces?query=%40ml_app%3Asg-hawker-showdown%20env%3Asg-production)
+
+Do not use `hanoi-coffee-guardrail` or `env:production`. Jailbreak traces are workflow-only (no OpenAI child) because AI Guard skips the model — use an allergy prompt to see `OpenAI.createChatCompletion`.
+
 ```
 @ml_app:sg-hawker-showdown env:sg-production @name:process_ctf_request
 @ml_app:sg-hawker-showdown env:sg-production @name:process_ctf_request ctf.challenge_status:completed
 @ml_app:sg-hawker-showdown env:sg-production @name:process_ctf_request ctf.challenge_status:failed
+@ml_app:sg-hawker-showdown env:sg-production @span_kind:llm
 ```
 
 ### AI Guard
 
+Indexed APM spans (`resource_name:ai_guard`), not the Evaluate HTTP API. Open **Security → AI Guard → Evaluations**, not Signals (signals need a detection rule).
+
 ```
 service:sg-hawker-showdown env:sg-production operation_name:ai_guard
+service:sg-hawker-showdown env:sg-production operation_name:ai_guard @ai_guard.action:(DENY OR ABORT)
+service:sg-hawker-showdown env:sg-production operation_name:ai_guard @ai_guard.blocked:true
 ```
