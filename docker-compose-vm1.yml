@@ -17,6 +17,8 @@ services:
       - DD_TRACE_ENABLED=true
       - DD_AGENT_HOST=datadog
       - DD_TRACE_AGENT_PORT=8126
+      - DD_TRACE_PROPAGATION_STYLE=datadog,tracecontext
+      - DD_TRACE_128_BIT_TRACEID_GENERATION_ENABLED=true
       
       # Datadog LLM Observability (for modular workflows)
       - DD_LLMOBS_ENABLED=1

@@ -40,9 +40,10 @@
         allowedTracingUrls: [
           {
             match: function (url) {
-              return url.startsWith(window.location.origin) ||
-                url.startsWith("https://prod.dd-demo-sg-llm.com") ||
-                url.startsWith("https://dd-demo-sg-llm.com");
+              if (!url) return false;
+              if (url.startsWith(window.location.origin)) return true;
+              return /https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(?:\/|$)/.test(url) ||
+                /https:\/\/(?:[a-z0-9-]+\.)?dd-demo-sg-llm\.com(?:\/|$)/.test(url);
             },
             propagatorTypes: ["datadog", "tracecontext"]
           }
@@ -998,12 +999,15 @@
       renderLastView();
 
       try {
+        const rumCtx = (window.DD_RUM && window.DD_RUM.getInternalContext && window.DD_RUM.getInternalContext()) || {};
         const response = await fetch("/api/game", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             msg: message,
-            user_name: userName
+            user_name: userName,
+            rum_session_id: rumCtx.session_id || "",
+            rum_view_id: rumCtx.view_id || ""
           })
         });
 

@@ -133,6 +133,22 @@ Filter every query with `@application.id:599a68f2-d9b6-4476-af51-3d9b7f44472b @s
 - `@user.ctf_winner:true`
 - `@user.ctf_status:winner`
 
+## RUM ↔ APM ↔ LLM Observability
+
+RUM injects a trace on `POST /api/game`. Flask continues it. LLM Observability stores a separate 128-bit id and links back with `apm_trace_id`.
+
+1. **RUM** → resource `/api/game` → flame **View Trace** (uses `@_dd.trace_id`).
+2. **APM** → same 64-bit id; look for `browser.request` + `src.routes.game_api` + `ai_guard` / langchain children.
+3. **LLM Observability** → `@ml_app:sg-hawker-showdown` → **View APM Trace** (not the LLMObs `trace_id`).
+
+```
+@type:resource @resource.url:*/api/game* env:sg-production
+service:sg-hawker-showdown env:sg-production @_dd.origin:rum
+@ml_app:sg-hawker-showdown env:sg-production @tags:"rum.session_id:<session>"
+```
+
+Live `sg.dd-demo-sg-llm.com` only shows `browser.request` until the app is redeployed to send traces to `datadog:8126`.
+
 ## LLM Observability
 
 Open **LLM Observability → Traces** (not APM, not Sessions until a real session id is set). Filter:

@@ -33,18 +33,33 @@ def _is_synthetics_request():
 def build_user_tags():
     data = request.get_json(silent=True) or {}
     user_name = data.get("user_name", "anonymous")
-    return {
+    tags = {
         "user_name": user_name,
         "traffic": "synthetics" if _is_synthetics_request() else "user",
     }
+    rum_session = data.get("rum_session_id") or ""
+    rum_view = data.get("rum_view_id") or ""
+    if rum_session:
+        tags["rum.session_id"] = rum_session
+    if rum_view:
+        tags["rum.view_id"] = rum_view
+    return tags
 
 
 def _tag_llmobs_session():
-    """@workflow(session_id=...) only accepts a string, not a callable."""
-    span = tracer.current_span()
-    if span is None:
-        return
-    span.set_tag(SESSION_ID, request.remote_addr or "anonymous")
+    """Join LLM Observability to the RUM session when the browser sends one."""
+    data = request.get_json(silent=True) or {}
+    rum_session = data.get("rum_session_id") or ""
+    rum_view = data.get("rum_view_id") or ""
+    sid = rum_session or request.remote_addr or "anonymous"
+    for span in (tracer.current_span(), tracer.current_root_span()):
+        if span is None:
+            continue
+        span.set_tag(SESSION_ID, sid)
+        if rum_session:
+            span.set_tag("rum.session_id", rum_session)
+        if rum_view:
+            span.set_tag("rum.view_id", rum_view)
 
 
 def process_ctf_request(msg):

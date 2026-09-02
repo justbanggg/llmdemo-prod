@@ -5,6 +5,10 @@ from .config import log
 from .workflows import process_ctf_request
 
 QUIZ_IDS = ("laksa", "chicken-rice")
+TRACE_EXPOSE_HEADERS = (
+    "x-datadog-trace-id, x-datadog-parent-id, x-datadog-sampling-priority, "
+    "traceparent, tracestate, traceresponse"
+)
 
 
 def setup_routes(app):
@@ -25,6 +29,12 @@ def setup_routes(app):
     @app.after_request
     def _log_response(resp):
         log.info("%s %s %s", request.method, request.path, resp.status_code)
+        # Lets the RUM SDK confirm the backend continued its trace.
+        existing = resp.headers.get("Access-Control-Expose-Headers", "")
+        if TRACE_EXPOSE_HEADERS not in existing:
+            resp.headers["Access-Control-Expose-Headers"] = (
+                f"{existing}, {TRACE_EXPOSE_HEADERS}".strip(", ")
+            )
         return resp
 
     @app.route("/")

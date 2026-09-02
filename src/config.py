@@ -24,6 +24,10 @@ os.environ.setdefault("DD_VERSION", "1.0.0")
 # blocking policy can stay monitor-only; we enforce the decision here.
 os.environ.setdefault("DD_AI_GUARD_BLOCK", "true")
 os.environ.setdefault("DD_AI_GUARD_ENABLED", "true")
+# RUM injects datadog + W3C headers. Keep both so browser.request and Flask
+# share a trace. 128-bit IDs match LLM Observability's apm_trace_id field.
+os.environ.setdefault("DD_TRACE_PROPAGATION_STYLE", "datadog,tracecontext")
+os.environ.setdefault("DD_TRACE_128_BIT_TRACEID_GENERATION_ENABLED", "true")
 
 import ddtrace
 from ddtrace.llmobs import LLMObs
