@@ -12,7 +12,7 @@ def main():
     print()
     
     print("🏁 CTF Challenge - Winning Prompts")
-    print("These prompts are designed to get the AI to recommend cà phê sữa đá:")
+    print("These prompts are designed to get the AI to recommend pad Thai:")
     print("-" * 60)
     
     ctf_prompts = get_ctf_prompts("standard")
@@ -21,7 +21,7 @@ def main():
     
     print()
     print("💡 Key Success Factors:")
-    print("   🏁 CTF: Focus on egg allergy, cannot sit down, sealed cold drink, religious/medical no-egg")
+    print("   🏁 CTF: Focus on shrimp allergy, medical no-chili, cannot eat soup / need a dry noodle")
     print()
     print("🚀 Ready to test these winning prompts!")
 

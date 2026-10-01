@@ -1,0 +1,38 @@
+# TH market override for the Thailand host.
+#
+# Usage (always layered on top of the backend compose file):
+#   docker compose -f docker-compose-backend.yml -f docker-compose.th.yml up -d
+#
+# Same Datadog identity as laptop: bkk-soi-showdown / th-production / 1.0.0.
+# Prompt Management publishes the soi prompt to Feature Flags env `th-production`.
+services:
+  app:
+    container_name: llm-th-app
+    environment:
+      - DD_SERVICE=bkk-soi-showdown
+      - DD_LLMOBS_ML_APP=bkk-soi-showdown
+      - DD_ENV=th-production
+      - DD_VERSION=1.0.0
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_TRACE_PROPAGATION_STYLE=datadog,tracecontext
+      - DD_TRACE_128_BIT_TRACEID_GENERATION_ENABLED=true
+      - DD_AI_GUARD_BLOCK=${DD_AI_GUARD_BLOCK:-true}
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/game"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  datadog:
+    container_name: datadog-th
+    environment:
+      - DD_ENV=th-production
+      - DD_TAGS=market:th
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
+
+networks:
+  default:
+    name: llm-th-network

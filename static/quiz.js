@@ -4,360 +4,350 @@
   var IMG = "/static/quiz_img/";
 
   var CHROME = {
-    tryAnother: { en: "TRY ANOTHER", vi: "THỬ CÁI KHÁC" },
-    guessAgain: { en: "GUESS AGAIN", vi: "ĐOÁN LẠI" },
-    bloom: { en: "…blooming…", vi: "…đang nở…" },
-    close: { en: "Return to game", vi: "Quay lại thử thách" },
-    returnToGame: { en: "Return to game", vi: "Quay lại thử thách" },
-    notQuite: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-    tryAnotherBody: { en: "Try another.", vi: "Thử nguyên liệu khác." },
-    quizLabel: { en: "Coffee quiz", vi: "Quiz pha cà phê" },
-    language: { en: "Language", vi: "Ngôn ngữ" }
+    tryAnother: { en: "TRY ANOTHER", th: "ลองอย่างอื่น" },
+    guessAgain: { en: "GUESS AGAIN", th: "ทายอีกครั้ง" },
+    bloom: { en: "…sizzling…", th: "…กำลังเดือด…" },
+    close: { en: "Return to game", th: "กลับไปท้าทาย" },
+    returnToGame: { en: "Return to game", th: "กลับไปท้าทาย" },
+    notQuite: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
+    tryAnotherBody: { en: "Try another.", th: "ลองวัตถุดิบอื่น" },
+    quizLabel: { en: "Soi quiz", th: "ควิซเมนูซอย" },
+    language: { en: "Language", th: "ภาษา" }
   };
 
   var QUIZZES = {
-    "sua-da": {
-      id: "sua-da",
-      rumKey: "sua-da",
-      completeImage: IMG + "milkcoffee_6.png",
+    "pad-thai": {
+      id: "pad-thai",
+      rumKey: "pad-thai",
+      completeImage: IMG + "padthai6.png",
       opening: {
-        kicker: { en: "Vietnamese iced coffee", vi: "Cà phê sữa đá" },
-        title: { en: "MAKE A CÀ PHÊ SỮA ĐÁ", vi: "PHA MỘT LY CÀ PHÊ SỮA ĐÁ" },
+        kicker: { en: "Pad Thai", th: "ผัดไทย" },
+        title: { en: "MAKE PAD THAI", th: "ผัดไทยกัน" },
         subcopy: {
-          en: "Strong. Sweet. Icy.\nThink you know your way around a phin?",
-          vi: "Đậm. Ngọt. Lạnh.\nBạn thuộc lòng cái phin chưa?"
+          en: "Soften noodles → Build sauce → Start the wok → Toss noodles → Finish the dish",
+          th: "แช่เส้น → ทำซอส → เปิดกระทะ → ผัดเส้น → ปิดจาน"
         },
-        image: IMG + "milkcoffee_6.png",
-        cta: { en: "LET’S BREW", vi: "PHA THÔI" }
+        image: IMG + "padthai6.png",
+        cta: { en: "LET’S WOK", th: "ลงกระทะ" }
       },
       result: {
-        kicker: { en: "Served", vi: "Dọn ra ly" },
-        title: { en: "NGON QUÁ!", vi: "NGON QUÁ!" },
-        subtitle: { en: "CÀ PHÊ SỮA ĐÁ: COMPLETE", vi: "CÀ PHÊ SỮA ĐÁ: XONG" },
+        kicker: { en: "Served", th: "เสิร์ฟแล้ว" },
+        title: { en: "AROI MAK!", th: "อร่อยมาก!" },
+        subtitle: { en: "PAD THAI COMPLETE", th: "ผัดไทย: เสร็จแล้ว" },
         body: {
-          en: "You nailed the phin, survived the wait, and kept your cool.",
-          vi: "Phin chuẩn, chờ được, và giữ được cái lạnh."
+          en: "The egg is in the noodles. Sprouts and chives add crunch. Peanuts and lime wait at the table.",
+          th: "ไข่เข้าเส้นแล้ว ถั่วงอกกับกุยช่ายเพิ่มความกรุบ ถั่วลิสงกับมะนาวรอที่โต๊ะ"
         },
-        brewLine: { en: "Your brew:", vi: "Ly của bạn:" },
+        brewLine: { en: "Your plate:", th: "จานของคุณ:" },
         stars: "★★★★★",
         stats: [
-          { label: { en: "Strength", vi: "Đậm" }, fill: 100 },
-          { label: { en: "Sweetness", vi: "Ngọt" }, fill: 80 },
-          { label: { en: "Patience required", vi: "Cần kiên nhẫn" }, fill: 100 }
+          { label: { en: "Tang", th: "เปรี้ยว" }, fill: 80 },
+          { label: { en: "Wok energy", th: "พลังกระทะ" }, fill: 100 },
+          { label: { en: "Peanut power", th: "พลังถั่ว" }, fill: 100 }
         ]
       },
       steps: [
         {
           id: 1,
           view: "step-1",
-          kicker: { en: "Step 1 — Pick your coffee", vi: "Bước 1 — Chọn cà phê" },
-          title: { en: "WHAT GOES IN THE PHIN?", vi: "CHO GÌ VÀO PHIN?" },
-          image: IMG + "milkcoffee_1.png",
+          kicker: { en: "1. Noodle business", th: "1. เรื่องเส้น" },
+          title: { en: "HOW DO WE GET THE RICE NOODLES READY?", th: "เตรียมเส้นจันท์ยังไง?" },
+          image: IMG + "padthai1.png",
           layout: "cards",
           choices: [
-            { id: "instant", emoji: "📦", label: { en: "Instant coffee powder", vi: "Cà phê hòa tan" }, correct: false, wrongTitle: { en: "TOO FINE!", vi: "MỊN QUÁ!" } },
-            { id: "medium", emoji: "🫘", label: { en: "Medium-ground dark roast coffee", vi: "Cà phê rang đậm xay vừa" }, correct: true },
-            { id: "beans", emoji: "🌑", label: { en: "Whole coffee beans", vi: "Hạt cà phê nguyên" }, correct: false, wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" } },
-            { id: "espresso", emoji: "⬛", label: { en: "Fine espresso grounds", vi: "Bột espresso xay mịn" }, correct: false, wrongTitle: { en: "TOO FINE!", vi: "MỊN QUÁ!" } }
+            { id: "deep-fry", emoji: "🍟", label: { en: "Deep-fry them until crispy", th: "ทอดกรอบ" }, correct: false },
+            { id: "soak", emoji: "🍜", label: { en: "Soak them until pliable but not fully soft", th: "แช่น้ำจนนิ่มยืดหยุ่น แต่ยังไม่เละ" }, correct: true },
+            { id: "boil-mushy", emoji: "💧", label: { en: "Boil them until completely mushy", th: "ต้มจนเละ" }, correct: false },
+            { id: "toast-dry", emoji: "🔥", label: { en: "Toast them dry in the wok", th: "คั่วแห้งในกระทะ" }, correct: false }
           ],
           correct: {
-            title: { en: "NICE PICK!", vi: "CHỌN HAY!" },
+            title: { en: "BENDY, NOT MUSHY.", th: "นิ่มยืดได้ ไม่เละ" },
             body: {
-              en: "A phin likes a medium grind — coarse enough for water to pass through slowly, but fine enough to brew a strong cup.\n\nVietnamese coffee is often made with dark-roasted Robusta or a Robusta-forward blend.",
-              vi: "Phin thích độ xay vừa — thô đủ để nước chảy chậm, nhưng mịn đủ để ra một ly đậm.\n\nCà phê Việt thường dùng Robusta rang đậm, hoặc blend nghiêng Robusta."
+              en: "Pad Thai noodles are usually softened before they hit the wok. They should still have some firmness because they’ll keep cooking when tossed with the sauce.",
+              th: "เส้นผัดไทยมักแช่น้ำให้ยืดหยุ่นก่อนลงกระทะ ยังต้องมีความแน่นอยู่ เพราะจะสุกต่อเมื่อผัดกับซอส"
             },
-            cta: { en: "PHIN READY →", vi: "PHIN XONG →" }
+            cta: { en: "SAUCE TIME →", th: "ต่อไป น้ำซอส →" }
           },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "That one won’t give us the slow, strong phin brew we’re after.",
-            vi: "Cái đó không cho ra ly phin chậm và đậm như mình muốn."
+            en: "Those noodles still have more cooking to do in the wok — don’t fry, mash, or toast them first.",
+            th: "เส้นยังต้องสุกต่อในกระทะ — อย่าทอด กรอบเละ หรือคั่วแห้งก่อน"
           }
         },
         {
           id: 2,
           view: "step-2",
-          kicker: { en: "Step 2 — Phin it right", vi: "Bước 2 — Phin cho đúng" },
-          title: { en: "COFFEE’S IN. WHAT GOES ON TOP?", vi: "CÀ PHÊ RỒI. CHO GÌ LÊN TRÊN?" },
-          image: IMG + "milkcoffee_2.png",
+          kicker: { en: "2. Sweet, sour, salty", th: "2. หวาน เปรี้ยว เค็ม" },
+          title: { en: "WHAT GIVES PAD THAI ITS SIGNATURE SAUCE?", th: "อะไรคือซอสผัดไทย?" },
+          image: IMG + "padthai2.png",
           layout: "cards",
           choices: [
-            { id: "spoon", emoji: "🥄", label: { en: "Spoon", vi: "Thìa" }, correct: false },
-            { id: "ice", emoji: "🧊", label: { en: "Ice cube", vi: "Viên đá" }, correct: false },
-            { id: "press", emoji: "⚙️", label: { en: "Metal filter press", vi: "Gạn phin" }, correct: true },
-            { id: "lid", emoji: "🧢", label: { en: "Phin lid", vi: "Nắp phin" }, correct: false }
+            { id: "coconut-curry", emoji: "🥥", label: { en: "Coconut milk, curry powder and sugar", th: "กะทิ ผงกะหรี่ และน้ำตาล" }, correct: false },
+            { id: "tamarind-trio", emoji: "🟤", label: { en: "Tamarind, fish sauce and palm sugar", th: "มะขาม น้ำปลา และน้ำตาลปี๊บ" }, correct: true },
+            { id: "soy-sesame", emoji: "🧂", label: { en: "Soy sauce, sesame oil and honey", th: "ซีอิ๊ว น้ำมันงา และน้ำผึ้ง" }, correct: false },
+            { id: "tomato-vinegar", emoji: "🍅", label: { en: "Tomato sauce, vinegar and salt", th: "ซอสมะเขือเทศ น้ำส้มสายชู และเกลือ" }, correct: false }
           ],
           correct: {
-            title: { en: "PRESS IT DOWN — GENTLY.", vi: "ẤN XUỐNG — NHẸ THÔI." },
+            title: { en: "THREE FLAVOURS, ONE SAUCE.", th: "สามรส หนึ่งซอส" },
             body: {
-              en: "The filter press holds the coffee bed in place while the hot water works its way through.\n\nDon’t pack it too hard — we still need that drip.",
-              vi: "Gạn phin giữ lớp cà phê tại chỗ để nước nóng từ từ thấm qua.\n\nĐừng nén quá chặt — vẫn cần cái nhỏ giọt."
+              en: "Tamarind brings tang, fish sauce brings savoury saltiness, and palm sugar rounds everything out with sweetness.\n\nThat sweet-sour-salty balance is at the heart of Pad Thai.",
+              th: "มะขามให้เปรี้ยว น้ำปลาให้เค็มอูมามิ น้ำตาลปี๊บปิดด้วยความหวาน\n\nสมดุลหวาน-เปรี้ยว-เค็มคือหัวใจผัดไทย"
             },
-            cta: { en: "NEXT: WAKE IT UP →", vi: "TIẾP: ĐÁNH THỨC →" }
+            cta: { en: "FIRE UP THE WOK →", th: "เปิดกระทะ →" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "That one won’t give us the slow, strong phin brew we’re after.",
-            vi: "Cái đó không cho ra ly phin chậm và đậm như mình muốn."
+            en: "Pad Thai sauce is tamarind, fish sauce and palm sugar — not curry, sesame, or tomato sauce.",
+            th: "ซอสผัดไทยคือมะขาม น้ำปลา และน้ำตาลปี๊บ — ไม่ใช่แกง งา หรือซอสมะเขือเทศ"
           }
         },
         {
           id: 3,
           view: "step-3",
-          kicker: { en: "Step 3 — Wake up the coffee", vi: "Bước 3 — Đánh thức cà phê" },
-          title: { en: "BEFORE THE BIG POUR… WHAT FIRST?", vi: "TRƯỚC KHI ĐỔ NHIỀU… LÀM GÌ TRƯỚC?" },
-          image: IMG + "milkcoffee_3.png",
+          kicker: { en: "3. Start the sizzle", th: "3. เริ่มเสียงกระทะ" },
+          title: { en: "WHAT GOES INTO THE HOT WOK FIRST?", th: "ใส่อะไรลงกระทะร้อนก่อน?" },
+          image: IMG + "padthai3.png",
           layout: "cards",
-          extra: "bloom",
           choices: [
-            { id: "cold-milk", emoji: "🥛", label: { en: "Cold milk", vi: "Sữa lạnh" }, correct: false },
-            { id: "full-kettle", emoji: "🫖", label: { en: "Full kettle of water", vi: "Cả ấm nước" }, correct: false },
-            { id: "splash", emoji: "💧", label: { en: "Small splash of hot water", vi: "Một chút nước nóng" }, correct: true },
-            { id: "condensed", emoji: "🥫", label: { en: "Condensed milk", vi: "Sữa đặc" }, correct: false }
+            { id: "finished-peanuts", emoji: "🥜", label: { en: "The finished noodles and peanuts", th: "เส้นสุกกับถั่วลิสง" }, correct: false },
+            { id: "aromatics-protein", emoji: "🍤", label: { en: "Aromatics, tofu and your protein", th: "เครื่องหอม เต้าหู้ และโปรตีน" }, correct: true },
+            { id: "lime-sprouts", emoji: "🍋", label: { en: "Lime juice and bean sprouts", th: "น้ำมะนาวกับถั่วงอก" }, correct: false },
+            { id: "cold-coconut", emoji: "🧊", label: { en: "Cold coconut milk", th: "กะทิเย็น" }, correct: false }
           ],
           correct: {
-            title: { en: "LET IT BLOOM.", vi: "CHO NÓ NỞ." },
+            title: { en: "GET THE WOK WORKING.", th: "ให้กระทะทำงานก่อน" },
             body: {
-              en: "A little hot water wets the grounds first and gets them ready for the main brew.\n\nGive it a moment.",
-              vi: "Một chút nước nóng làm ướt bột trước, để cà phê sẵn sàng cho lần đổ chính.\n\nChờ một nhịp."
+              en: "Start by building flavour in the hot wok with aromatics, tofu and protein such as prawns.\n\nThe noodles come in after the base ingredients have had a chance to cook.",
+              th: "เริ่มสร้างรสในกระทะร้อนด้วยเครื่องหอม เต้าหู้ และโปรตีนอย่างกุ้ง\n\nเส้นลงทีหลังเมื่อของฐานสุกแล้ว"
             },
-            cta: { en: "POUR IT UP →", vi: "ĐỔ NƯỚC →" }
+            cta: { en: "BRING IN THE NOODLES →", th: "เอาเส้นลง →" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "That one won’t give us the slow, strong phin brew we’re after.",
-            vi: "Cái đó không cho ra ly phin chậm và đậm như mình muốn."
+            en: "The wok needs aromatics, tofu and protein first. Noodles wait nearby.",
+            th: "กระทะต้องการเครื่องหอม เต้าหู้ และโปรตีนก่อน เส้นรออยู่ข้าง ๆ"
           }
         },
         {
           id: 4,
           view: "step-4",
-          kicker: { en: "Step 4 — Slow down, ah", vi: "Bước 4 — Từ từ thôi" },
-          title: { en: "THE PHIN IS FULL. NOW WHAT?", vi: "PHIN ĐÃ ĐẦY. GIỜ LÀM GÌ?" },
-          image: IMG + "milkcoffee_4.png",
-          layout: "actions",
-          extra: "drip",
+          kicker: { en: "4. Toss it together", th: "4. ผัดให้เข้ากัน" },
+          title: { en: "THE NOODLES ARE READY. WHAT HAPPENS NEXT?", th: "เส้นพร้อมแล้ว ต่อไปทำอะไร?" },
+          image: IMG + "padthai4.png",
+          layout: "cards",
           choices: [
-            { id: "press", emoji: "👊", label: { en: "PRESS\nPush the coffee through.", vi: "ẤN\nÉp cà phê chảy xuống." }, correct: false },
-            { id: "stir", emoji: "🥄", label: { en: "STIR\nGive everything a mix.", vi: "KHUẤY\nTrộn tất cả lên." }, correct: false },
-            { id: "wait", emoji: "⏳", label: { en: "WAIT\nLet gravity do its thing.", vi: "CHỜ\nĐể trọng lực làm việc." }, correct: true },
-            { id: "filter", emoji: "📄", label: { en: "FILTER AGAIN\nGrab some filter paper.", vi: "LỌC LẠI\nLấy giấy lọc." }, correct: false }
+            { id: "rinse-serve", emoji: "🚿", label: { en: "Rinse the noodles in cold water and serve", th: "ล้างเส้นด้วยน้ำเย็นแล้วเสิร์ฟ" }, correct: false },
+            { id: "add-water", emoji: "💧", label: { en: "Add plain water and stop cooking", th: "ใส่น้ำเปล่าแล้วหยุดผัด" }, correct: false },
+            { id: "toss-sauce", emoji: "🔥", label: { en: "Add the noodles and sauce, then toss until coated", th: "ใส่เส้นกับซอส แล้วผัดให้เคลือบ" }, correct: true },
+            { id: "cheese", emoji: "🧀", label: { en: "Cover everything with cheese", th: "ราดชีสทับทั้งหมด" }, correct: false }
           ],
           correct: {
-            title: { en: "DRIP. DRIP. DRIP.", vi: "NHỎ. NHỎ. NHỎ." },
+            title: { en: "TOSS, TOSS, TOSS.", th: "ผัด ผัด ผัด" },
             body: {
-              en: "That slow drip is the whole point.\n\nThe phin produces a concentrated coffee strong enough to stand up to condensed milk and ice.",
-              vi: "Cái nhỏ giọt chậm chính là cả bài.\n\nPhin cho ra cà phê đặc, đủ mạnh để đứng vững trước sữa đặc và đá."
+              en: "The noodles absorb the tamarind-based sauce as they finish cooking in the wok.\n\nYou want them glossy, flavourful and tender — not soggy.",
+              th: "เส้นดูดซอสมะขามขณะสุกต่อในกระทะ\n\nต้องการเส้นมันวาว มีรส และนุ่ม — ไม่แฉะ"
             },
-            cta: { en: "ALMOST THERE →", vi: "SẮP XONG →" }
+            cta: { en: "FINISH STRONG →", th: "ปิดจานให้ปัง →" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "Patience. The phin is not a machine you shove around.",
-            vi: "Kiên nhẫn. Phin không phải máy để mình thúc."
+            en: "Add the noodles and sauce, then toss until coated. Don’t rinse, flood, or cheese them.",
+            th: "ใส่เส้นกับซอสแล้วผัดให้เคลือบ อย่าล้าง ท่วมน้ำ หรือราดชีส"
           }
         },
         {
           id: 5,
           view: "step-5",
-          kicker: { en: "Step 5 — Make it iced", vi: "Bước 5 — Cho đá vào" },
-          title: { en: "COFFEE DONE. HOW DO WE FINISH IT?", vi: "CÀ PHÊ XONG. HOÀN THIỆN THẾ NÀO?" },
-          image: IMG + "milkcoffee_5.png",
-          layout: "beats",
-          beats: [
-            {
-              title: { en: "MIX IT?", vi: "KHUẤY KHÔNG?" },
-              layout: "actions",
-              choices: [
-                { id: "stir", emoji: "🥄", label: { en: "STIR", vi: "KHUẤY" }, correct: true },
-                { id: "dont", emoji: "🚫", label: { en: "DON’T STIR", vi: "ĐỪNG KHUẤY" }, correct: false }
-              ],
-              wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
-              wrongBody: {
-                en: "Give the condensed milk a chance to meet the coffee first.",
-                vi: "Cho sữa đặc gặp cà phê trước đã."
-              }
-            },
-            {
-              title: { en: "WHERE NEXT?", vi: "TIẾP THEO ĐÂU?" },
-              hint: { en: "Tap the glass of ice.", vi: "Chạm vào ly đá." },
-              layout: "tap-scene",
-              image: IMG + "milkcoffee_6.png"
-            }
+          kicker: { en: "5. The final wok move", th: "5. ไม้สุดท้ายของกระทะ" },
+          title: { en: "ALMOST DONE. WHAT FINISHES THE PAD THAI?", th: "เกือบเสร็จ อะไรปิดผัดไทย?" },
+          image: IMG + "padthai5.png",
+          layout: "cards",
+          choices: [
+            { id: "egg-sprouts", emoji: "🍳", label: { en: "Cook in the egg, then fold in sprouts and chives", th: "ใส่ไข่แล้วพับถั่วงอกกับกุยช่ายเข้าไป" }, correct: true },
+            { id: "coconut-simmer", emoji: "🥥", label: { en: "Pour in coconut cream and simmer", th: "เทกะทิแล้วเคี่ยว" }, correct: false },
+            { id: "cucumber-broth", emoji: "🥒", label: { en: "Add sliced cucumber and chicken broth", th: "ใส่แตงกวาหั่นกับน้ำซุปไก่" }, correct: false },
+            { id: "steam-20", emoji: "⏳", label: { en: "Cover and steam everything for 20 minutes", th: "ปิดฝาแล้วนึ่ง 20 นาที" }, correct: false }
           ],
           correct: {
-            title: { en: "THAT’S THE ONE.", vi: "ĐÚNG LY ĐÓ." },
+            title: { en: "NOW THAT LOOKS LIKE PAD THAI.", th: "นี่แหละผัดไทย" },
             body: {
-              en: "Strong coffee + sweet condensed milk + plenty of ice.\n\nSimple ingredients. Very serious refreshment.",
-              vi: "Cà phê đậm + sữa đặc ngọt + thật nhiều đá.\n\nNguyên liệu đơn giản. Giải khát thì nghiêm túc."
+              en: "The egg gets cooked into the noodles, while bean sprouts and garlic chives add freshness and crunch.\n\nFinish with peanuts and lime at the table.",
+              th: "ไข่ถูกผัดเข้ากับเส้น ถั่วงอกกับกุยช่ายเพิ่มความสดและกรุบกรอบ\n\nปิดด้วยถั่วลิสงและมะนาวตอนเสิร์ฟ"
             },
-            cta: { en: "SERVE IT!", vi: "DỌN RA LY!" }
+            cta: { en: "SERVE IT!", th: "เสิร์ฟเลย!" }
+          },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
+          wrongBody: {
+            en: "Cook in the egg, then fold in sprouts and chives. Peanuts and lime finish it at the table.",
+            th: "ใส่ไข่แล้วพับถั่วงอกกับกุยช่าย ถั่วลิสงกับมะนาวปิดที่โต๊ะ"
           }
         }
       ]
     },
-    trung: {
-      id: "trung",
-      rumKey: "trung",
-      completeImage: IMG + "eggcoffee_6.png",
+    "tom-yum": {
+      id: "tom-yum",
+      rumKey: "tom-yum",
+      completeImage: IMG + "tomyum6.png",
       opening: {
-        kicker: { en: "Vietnamese egg coffee", vi: "Cà phê trứng" },
-        title: { en: "ROUND TWO: THINGS ARE GETTING EGGY", vi: "VÒNG HAI: TỚI LÚC CÓ TRỨNG" },
+        kicker: { en: "Tom Yum Goong", th: "ต้มยำกุ้ง" },
+        title: { en: "MAKE TOM YUM", th: "ต้มยำกัน" },
         subcopy: {
-          en: "Coffee was easy.\nNow let’s turn an egg yolk into something that tastes suspiciously like dessert.",
-          vi: "Pha cà phê thì dễ.\nGiờ biến lòng đỏ trứng thành thứ nghe như món tráng miệng."
+          en: "Prep aromatics → Build broth → Add prawns → Balance flavours → Assemble",
+          th: "เตรียมเครื่องหอม → สร้างน้ำซุป → ใส่กุ้ง → ปรับรส → จัดชาม"
         },
-        image: IMG + "eggcoffee_6.png",
-        cta: { en: "CRACK ON", vi: "ĐẬP TRỨNG" }
+        image: IMG + "tomyum6.png",
+        cta: { en: "START THE BROTH", th: "เปิดหม้อ" }
       },
       result: {
-        kicker: { en: "Served", vi: "Dọn ra ly" },
-        title: { en: "XONG RỒI!", vi: "XONG RỒI!" },
-        subtitle: { en: "CÀ PHÊ TRỨNG: COMPLETE", vi: "CÀ PHÊ TRỨNG: XONG" },
+        kicker: { en: "Served", th: "เสิร์ฟแล้ว" },
+        title: { en: "ZAAP!", th: "แซ่บ!" },
+        subtitle: { en: "TOM YUM COMPLETE", th: "ต้มยำ: เสร็จแล้ว" },
         body: {
-          en: "Coffee underneath.\nDessert on top.\nVery sensible arrangement.",
-          vi: "Cà phê ở dưới.\nMón ngọt ở trên.\nSắp xếp hợp lý."
+          en: "Fragrant broth, juicy prawns, mushrooms, chilli, lime and fresh herbs in one punchy bowl.",
+          th: "น้ำซุปหอม กุ้งฉ่ำ เห็ด พริก มะนาว และสมุนไพรสดรวมในชามเดียว"
         },
-        brewLine: { en: "Your cup:", vi: "Ly của bạn:" },
+        brewLine: { en: "Your bowl:", th: "ชามของคุณ:" },
         stars: "★★★★★",
         stats: [
-          { label: { en: "Coffee kick", vi: "Độ cà phê" }, fill: 100 },
-          { label: { en: "Creaminess", vi: "Độ béo" }, fill: 100 },
-          { label: { en: "Dessert energy", vi: "Năng lượng tráng miệng" }, fill: 100 }
+          { label: { en: "Sour", th: "เปรี้ยว" }, fill: 80 },
+          { label: { en: "Heat", th: "ความเผ็ด" }, fill: 80 },
+          { label: { en: "Aroma", th: "ความหอม" }, fill: 100 }
         ]
       },
       steps: [
         {
           id: 1,
           view: "step-1",
-          kicker: { en: "Step 1 — Start strong", vi: "Bước 1 — Bắt đầu cho đậm" },
-          title: { en: "WHAT’S HIDING UNDER ALL THAT EGG CREAM?", vi: "BÊN DƯỚI LỚP KEM TRỨNG LÀ GÌ?" },
-          image: IMG + "eggcoffee_1.png",
+          kicker: { en: "1. Wake up the aromatics", th: "1. ปลุกเครื่องหอม" },
+          title: { en: "WHAT STARTS A CLASSIC TOM YUM BROTH?", th: "อะไรเริ่มน้ำซุปต้มยำคลาสสิก?" },
+          image: IMG + "tomyum1.png",
           layout: "cards",
           choices: [
-            { id: "vn-coffee", emoji: "☕", label: { en: "Strong Vietnamese coffee", vi: "Cà phê Việt đậm" }, correct: true },
-            { id: "tea", emoji: "🍵", label: { en: "Green tea", vi: "Trà xanh" }, correct: false },
-            { id: "steamed", emoji: "🥛", label: { en: "Steamed milk", vi: "Sữa nóng" }, correct: false },
-            { id: "coconut", emoji: "🥥", label: { en: "Coconut water", vi: "Nước dừa" }, correct: false }
+            { id: "italian-herbs", emoji: "🌿", label: { en: "Basil, oregano and rosemary", th: "โหระพา ออริกาโน และโรสแมรี" }, correct: false },
+            { id: "tom-yum-trio", emoji: "🍋", label: { en: "Lemongrass, galangal and makrut lime leaves", th: "ตะไคร้ ข่า และใบมะกรูด" }, correct: true },
+            { id: "spice-mix", emoji: "⭐", label: { en: "Cinnamon, star anise and cloves", th: "อบเชย โป๊ยกั๊ก และกานพลู" }, correct: false },
+            { id: "butter-garlic", emoji: "🧈", label: { en: "Butter, garlic and parsley", th: "เนย กระเทียม และพาร์สลีย์" }, correct: false }
           ],
           correct: {
-            title: { en: "START WITH THE STRONG STUFF.", vi: "BẮT ĐẦU BẰNG THỨ ĐẬM." },
+            title: { en: "THAT'S THE TOM YUM TRIO.", th: "นั่นคือสามพี่น้องต้มยำ" },
             body: {
-              en: "Cà phê trứng begins with concentrated coffee.\n\nThat dark coffee gives the sweet egg cream something bold to sit on.",
-              vi: "Cà phê trứng bắt đầu bằng cà phê đặc.\n\nLớp cà phê đậm cho kem trứng ngọt có chỗ để ngồi lên."
+              en: "Lemongrass, galangal and makrut lime leaves give Tom Yum its instantly recognizable citrusy, herbal aroma.",
+              th: "ตะไคร้ ข่า และใบมะกรูดให้กลิ่นซิตรัสสมุนไพรที่รู้ทันทีว่าต้มยำ"
             },
-            cta: { en: "GET CRACKING →", vi: "ĐẬP TRỨNG →" }
+            cta: { en: "BUILD THE BROTH →", th: "สร้างน้ำซุป →" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "Egg cream needs a bold coffee base, not a stand-in.",
-            vi: "Kem trứng cần đế cà phê đậm, không phải đồ thế chỗ."
+            en: "Tom Yum starts with lemongrass, galangal and makrut lime leaves.",
+            th: "ต้มยำเริ่มด้วยตะไคร้ ข่า และใบมะกรูด"
           }
         },
         {
           id: 2,
           view: "step-2",
-          kicker: { en: "Step 2 — Yolk about it", vi: "Bước 2 — Chuyện lòng đỏ" },
-          title: { en: "THE EGG’S CRACKED. WHICH PART ARE WE KEEPING?", vi: "TRỨNG ĐÃ ĐẬP. GIỮ PHẦN NÀO?" },
-          image: IMG + "eggcoffee_2.png",
+          kicker: { en: "2. Let it infuse", th: "2. ให้เครื่องแช่ซุป" },
+          title: { en: "WHAT SHOULD WE DO WITH THOSE AROMATICS?", th: "ทำอะไรกับเครื่องหอมพวกนั้น?" },
+          image: IMG + "tomyum2.png",
           layout: "cards",
           choices: [
-            { id: "white", emoji: "🤍", label: { en: "Bowl of egg white", vi: "Bát lòng trắng" }, correct: false },
-            { id: "yolk", emoji: "🟡", label: { en: "Golden egg yolk", vi: "Lòng đỏ vàng" }, correct: true },
-            { id: "shell", emoji: "🥚", label: { en: "Eggshell", vi: "Vỏ trứng" }, correct: false },
-            { id: "boiled", emoji: "🍳", label: { en: "Whole boiled egg", vi: "Trứng luộc nguyên" }, correct: false }
+            { id: "deep-fry", emoji: "🍟", label: { en: "Deep-fry them until crisp", th: "ทอดกรอบ" }, correct: false },
+            { id: "serve-raw", emoji: "🥗", label: { en: "Serve them raw on top", th: "เสิร์ฟสด ๆ บนชาม" }, correct: false },
+            { id: "simmer", emoji: "🍲", label: { en: "Simmer them gently in the broth", th: "ตุ๋นเบา ๆ ในน้ำซุป" }, correct: true },
+            { id: "blend-ice", emoji: "🧊", label: { en: "Blend them with ice", th: "ปั่นกับน้ำแข็ง" }, correct: false }
           ],
           correct: {
-            title: { en: "YOLK’S ON YOU.", vi: "LÒNG ĐỎ ĐÓ." },
+            title: { en: "LET THE BROTH DO THE WORK.", th: "ให้น้ำซุปทำงาน" },
             body: {
-              en: "The rich yolk is the base of that famous creamy topping.\n\nEgg white can sit this one out.",
-              vi: "Lòng đỏ béo là nền của lớp kem nổi tiếng đó.\n\nLòng trắng ngồi ngoài vòng này."
+              en: "Gentle simmering extracts the fragrance from the aromatics and builds the base of the soup.",
+              th: "การตุ๋นเบา ๆ สกัดกลิ่นจากเครื่องหอมและสร้างฐานซุป"
             },
-            cta: { en: "MAKE IT SWEET →", vi: "CHO NGỌT VÀO →" }
+            cta: { en: "PRAWN TIME →", th: "ต่อไป กุ้ง →" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "We’re after the golden bit — leave the rest of the egg behind.",
-            vi: "Mình cần phần vàng — phần còn lại để đó."
+            en: "Simmer the aromatics gently in the broth. Don’t fry, ice, or serve them raw.",
+            th: "ตุ๋นเครื่องหอมเบา ๆ ในน้ำซุป อย่าทอด ปั่นน้ำแข็ง หรือเสิร์ฟสด"
           }
         },
         {
           id: 3,
           view: "step-3",
-          kicker: { en: "Step 3 — Sweeten the deal", vi: "Bước 3 — Cho ngọt vào" },
-          title: { en: "WHAT JOINS THE YOLK?", vi: "GÌ ĐI CÙNG LÒNG ĐỎ?" },
-          image: IMG + "eggcoffee_3.png",
+          kicker: { en: "3. Into the soup", th: "3. ลงซุป" },
+          title: { en: "BROTH'S FRAGRANT. WHAT GOES IN NEXT?", th: "น้ำซุปหอมแล้ว ใส่อะไรต่อ?" },
+          image: IMG + "tomyum3.png",
           layout: "cards",
           choices: [
-            { id: "condensed", emoji: "🥫", label: { en: "Sweetened condensed milk", vi: "Sữa đặc có đường" }, correct: true },
-            { id: "sparkling", emoji: "🫧", label: { en: "Sparkling water", vi: "Nước có ga" }, correct: false },
-            { id: "soy", emoji: "🧂", label: { en: "Soy sauce", vi: "Nước tương" }, correct: false },
-            { id: "butter", emoji: "🧈", label: { en: "Melted butter", vi: "Bơ tan" }, correct: false }
+            { id: "noodles-tofu", emoji: "🍜", label: { en: "Rice noodles and tofu puffs", th: "เส้นจันท์กับเต้าหู้ทอด" }, correct: false },
+            { id: "prawns-mushrooms", emoji: "🦐", label: { en: "Prawns and mushrooms", th: "กุ้งกับเห็ด" }, correct: true },
+            { id: "chicken-cucumber", emoji: "🍗", label: { en: "Roasted chicken and cucumber", th: "ไก่ย่างกับแตงกวา" }, correct: false },
+            { id: "pasta-parmesan", emoji: "🧀", label: { en: "Pasta and parmesan", th: "พาสต้ากับพาร์เมซาน" }, correct: false }
           ],
           correct: {
-            title: { en: "SWEET MOVE.", vi: "NGỌT ĐÚNG LÚC." },
+            title: { en: "IN GO THE PRAWNS.", th: "กุ้งลงซุป" },
             body: {
-              en: "Condensed milk gives the mixture sweetness, body and that rich dessert-like character.\n\nNow comes the workout.",
-              vi: "Sữa đặc cho hỗn hợp vị ngọt, độ đặc, và cái chất như món tráng miệng.\n\nGiờ tới phần tập tay."
+              en: "Mushrooms add texture while prawns turn sweet and succulent as they cook in the hot aromatic broth.\n\nDon't overcook them — just enough is enough.",
+              th: "เห็ดเพิ่มเนื้อสัมผัส กุ้งหวานเด้งเมื่อสุกในน้ำซุปหอม\n\nอย่าสุกเกิน — พอดีก็พอ"
             },
-            cta: { en: "WHISK AWAY →", vi: "ĐÁNH KEM →" }
+            cta: { en: "BALANCE THE BOWL →", th: "ปรับรสชาม →" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "The yolk wants condensed milk — nothing savory, nothing fizzy.",
-            vi: "Lòng đỏ cần sữa đặc — đừng mặn, đừng có ga."
+            en: "Prawns and mushrooms go in next. This is Tom Yum Goong, not pasta night.",
+            th: "ต่อไปคือกุ้งกับเห็ด นี่คือต้มยำกุ้ง ไม่ใช่คืนพาสต้า"
           }
         },
         {
           id: 4,
           view: "step-4",
-          kicker: { en: "Step 4 — Whip it good", vi: "Bước 4 — Đánh cho bông" },
-          title: { en: "WHEN DO WE STOP WHISKING?", vi: "ĐÁNH ĐẾN KHI NÀO DỪNG?" },
-          image: IMG + "eggcoffee_4.png",
-          layout: "stages",
+          kicker: { en: "4. Make it Tom Yum", th: "4. ให้มันเป็นต้มยำ" },
+          title: { en: "WHAT GIVES THE SOUP ITS HOT-SOUR-SALTY KICK?", th: "อะไรให้ซุปรสเผ็ด-เปรี้ยว-เค็ม?" },
+          image: IMG + "tomyum4.png",
+          layout: "cards",
           choices: [
-            { id: "runny", emoji: "", label: { en: "RUNNY\nDark yellow and thin.", vi: "LOÃNG\nVàng đậm và loãng." }, swatch: "runny", correct: false },
-            { id: "creamy", emoji: "", label: { en: "CREAMY\nLighter but still loose.", vi: "SỆT\nNhạt hơn nhưng vẫn lỏng." }, swatch: "creamy", correct: false },
-            { id: "fluffy", emoji: "", label: { en: "THICK + FLUFFY\nPale, airy, soft peaks.", vi: "DÀY + BÔNG\nNhạt, xốp, đỉnh mềm." }, swatch: "fluffy", correct: true }
+            { id: "soy-milk", emoji: "🥛", label: { en: "Soy milk, sugar and sesame", th: "นมถั่วเหลือง น้ำตาล และงา" }, correct: false },
+            { id: "butter-cream", emoji: "🧈", label: { en: "Butter, cream and pepper", th: "เนย ครีม และพริกไทย" }, correct: false },
+            { id: "fish-chilli-lime", emoji: "🌶️", label: { en: "Fish sauce, chilli and fresh lime juice", th: "น้ำปลา พริก และน้ำมะนาวสด" }, correct: true },
+            { id: "ketchup", emoji: "🍅", label: { en: "Tomato ketchup, salt and vinegar", th: "ซอสมะเขือเทศ เกลือ และน้ำส้มสายชู" }, correct: false }
           ],
           correct: {
-            title: { en: "THERE IT IS.", vi: "ĐÓ RỒI." },
+            title: { en: "HOT. SOUR. SALTY.", th: "เผ็ด เปรี้ยว เค็ม" },
             body: {
-              en: "Whisking adds air until the yolk and condensed milk become thick, pale and velvety.\n\nThat fluffy texture is what makes egg coffee feel almost like a dessert.",
-              vi: "Đánh kem cho không khí vào đến khi lòng đỏ và sữa đặc đặc, nhạt màu và mượt.\n\nCái xốp đó khiến cà phê trứng gần như món tráng miệng."
+              en: "Fish sauce adds savoury depth, chilli brings heat, and fresh lime gives Tom Yum its bright sour edge.\n\nLime is best added toward the end so its fresh flavour stays lively.",
+              th: "น้ำปลาให้อูมามิ พริกให้ความเผ็ด มะนาวสดให้เปรี้ยวสด\n\nมะนาวใส่ท้าย ๆ ให้รสสดไม่หาย"
             },
-            cta: { en: "BUILD THE CUP →", vi: "DỰNG LY →" }
+            cta: { en: "BOWL IT UP →", th: "ตักใส่ชาม →" }
           },
-          wrongTitle: { en: "KEEP GOING!", vi: "ĐÁNH TIẾP!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "Not there yet — we want pale, airy, and thick enough to sit on the coffee.",
-            vi: "Chưa tới — cần nhạt, xốp, và đặc đủ để ngồi trên cà phê."
+            en: "Fish sauce, chilli and fresh lime juice make the hot-sour-salty kick.",
+            th: "น้ำปลา พริก และน้ำมะนาวสด คือรสเผ็ด-เปรี้ยว-เค็ม"
           }
         },
         {
           id: 5,
           view: "step-5",
-          kicker: { en: "Step 5 — The grand finale", vi: "Bước 5 — Màn kết" },
-          title: { en: "COFFEE: READY.\nCREAM: READY.\nNOW WHAT?", vi: "CÀ PHÊ: XONG.\nKEM: XONG.\nGIỜ LÀM GÌ?" },
-          image: IMG + "eggcoffee_5.png",
+          kicker: { en: "5. Finish the soup", th: "5. ปิดซุป" },
+          title: { en: "EVERYTHING'S COOKED. HOW DO WE SERVE IT?", th: "ของสุกแล้ว เสิร์ฟยังไง?" },
+          image: IMG + "tomyum5.png",
           layout: "cards",
           choices: [
-            { id: "spoon", emoji: "🥄", label: { en: "Spoon the cream over the coffee", vi: "Múc kem lên cà phê" }, correct: true },
-            { id: "ice", emoji: "🧊", label: { en: "Mix everything with ice", vi: "Trộn tất cả với đá" }, correct: false },
-            { id: "pour-away", emoji: "🫗", label: { en: "Pour the coffee away", vi: "Đổ cà phê đi" }, correct: false },
-            { id: "raw", emoji: "🟡", label: { en: "Drop in a raw yolk", vi: "Thả lòng đỏ sống" }, correct: false }
+            { id: "ladle-herbs", emoji: "🥣", label: { en: "Ladle in the soup and finish with fresh herbs and chilli", th: "ตักซุปแล้วปิดด้วยสมุนไพรสดกับพริก" }, correct: true },
+            { id: "drain", emoji: "🫗", label: { en: "Drain all the broth away", th: "เทน้ำซุปทิ้ง" }, correct: false },
+            { id: "stir-fry-dry", emoji: "🔥", label: { en: "Stir-fry everything until dry", th: "ผัดจนแห้ง" }, correct: false },
+            { id: "bake-rice", emoji: "🍚", label: { en: "Pour the soup over steamed rice and bake it", th: "ราดข้าวสวยแล้วนำไปอบ" }, correct: false }
           ],
           correct: {
-            title: { en: "LOOK AT THOSE LAYERS.", vi: "NHÌN MẤY LỚP ĐÓ." },
+            title: { en: "THAT'S A BOWL OF TOM YUM.", th: "นั่นคือชามต้มยำ" },
             body: {
-              en: "Dark Vietnamese coffee underneath.\nThick golden egg cream on top.\n\nSip through both and you get bitter, sweet and creamy in one go.",
-              vi: "Cà phê Việt đậm ở dưới.\nKem trứng vàng dày ở trên.\n\nHút cả hai lớp: đắng, ngọt, béo một lần."
+              en: "Fragrant broth, juicy prawns, mushrooms, chilli, lime and fresh herbs all come together in one punchy bowl.",
+              th: "น้ำซุปหอม กุ้งฉ่ำ เห็ด พริก มะนาว และสมุนไพรสดรวมในชามเดียว"
             },
-            cta: { en: "SERVE IT!", vi: "DỌN RA LY!" }
+            cta: { en: "SERVE IT!", th: "เสิร์ฟเลย!" }
           },
-          wrongTitle: { en: "NOT QUITE!", vi: "CHƯA ỔN!" },
+          wrongTitle: { en: "NOT QUITE!", th: "ยังไม่ใช่!" },
           wrongBody: {
-            en: "Keep the layers. Spoon the cream onto the coffee — don’t stir it into ice.",
-            vi: "Giữ các lớp. Múc kem lên cà phê — đừng khuấy với đá."
+            en: "Ladle in the soup and finish with fresh herbs and chilli. Keep the broth.",
+            th: "ตักซุปแล้วปิดด้วยสมุนไพรสดกับพริก อย่าเทน้ำซุปทิ้ง"
           }
         }
       ]
@@ -380,13 +370,13 @@
   var onCloseCallback = null;
 
   function lang() {
-    return localStorage.getItem("ctf_lang") === "en" ? "en" : "vi";
+    return localStorage.getItem("ctf_lang") === "en" ? "en" : "th";
   }
 
   function tx(value) {
     if (value == null) return "";
     if (typeof value === "string") return value;
-    return value[lang()] || value.en || value.vi || "";
+    return value[lang()] || value.en || value.th || "";
   }
 
   function rum(fn) {
@@ -526,7 +516,7 @@
     var current = lang();
     return (
       '<div class="lang-toggle quiz-lang-toggle" role="group" aria-label="' + esc(tx(CHROME.language)) + '">' +
-        '<button type="button" class="lang-btn' + (current === "vi" ? " is-active" : "") + '" data-quiz-lang="vi">VI</button>' +
+        '<button type="button" class="lang-btn' + (current === "th" ? " is-active" : "") + '" data-quiz-lang="th">TH</button>' +
         '<button type="button" class="lang-btn' + (current === "en" ? " is-active" : "") + '" data-quiz-lang="en">EN</button>' +
       "</div>"
     );
@@ -697,7 +687,7 @@
         if (typeof global.setLanguage === "function") {
           global.setLanguage(next);
         } else {
-          localStorage.setItem("ctf_lang", next === "en" ? "en" : "vi");
+          localStorage.setItem("ctf_lang", next === "en" ? "en" : "th");
           rerender();
         }
       });
@@ -961,11 +951,11 @@
     rerender: rerender,
     isOpen: isOpen,
     playCelebration: playCelebration,
-    ids: { milk: "sua-da", egg: "trung" }
+    ids: { win: "pad-thai", hold: "tom-yum" }
   };
 
   function quizIdFromPath() {
-    var match = window.location.pathname.match(/^\/quiz\/(sua-da|trung)(?:\/|$)/);
+    var match = window.location.pathname.match(/^\/quiz\/(pad-thai|tom-yum)(?:\/|$)/);
     return match ? match[1] : null;
   }
 

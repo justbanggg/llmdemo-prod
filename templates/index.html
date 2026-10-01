@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Datadog Live Vietnam</title>
+  <title>Datadog Live Thailand</title>
   <link rel="stylesheet" href="/static/style.css">
 
   <script>
@@ -23,8 +23,8 @@
 
     window.DD_RUM.onReady(function() {
       window.DD_RUM.init({
-        applicationId: '95ad2a6f-23d2-4f1b-8e44-46f0570d49a4',
-        clientToken: 'pub65c3cc3be5c573795f0bfffdc7cc3857',
+        applicationId: '7636915f-0c98-4c3c-804a-cc5ef9caed8d',
+        clientToken: 'pub12980eb2d64122ba88c8e7a662cba363',
         site: 'datadoghq.com',
         service: '{{ dd_service }}',
         env: '{{ dd_env }}',
@@ -80,7 +80,7 @@
   <div class="landing">
     <div class="landing-topbar">
       <div class="lang-toggle" role="group" aria-label="Language">
-        <button type="button" class="lang-btn is-active" data-lang="vi">VI</button>
+        <button type="button" class="lang-btn is-active" data-lang="th">TH</button>
         <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
@@ -90,17 +90,17 @@
         <img
           class="landing-logo"
           src="/static/logo_img/datadogvn.png"
-          alt="Datadog Live Vietnam"
+          alt="Datadog Live Thailand"
           width="512"
           height="512"
         >
-        <h1 class="landing-title" data-i18n="title">Datadog Live Vietnam</h1>
+        <h1 class="landing-title" data-i18n="title">Datadog Live Thailand</h1>
         <p class="landing-subtitle" data-i18n="subtitle">
-          Một ly cà phê Hà Nội, một guardrail, và cả hành trình của bạn trên Datadog.
+          หนึ่งชามต้มยำ หนึ่ง guardrail และทั้งทริปของคุณบน Datadog
         </p>
 
         <form class="landing-form" id="landingForm" action="/game" method="get">
-          <label for="username" data-i18n="nameLabel">Tên và công ty của bạn?</label>
+          <label for="username" data-i18n="nameLabel">ชื่อและบริษัทของคุณ?</label>
           <input
             id="username"
             class="name-input"
@@ -109,10 +109,10 @@
             maxlength="50"
             autocomplete="name"
             data-i18n-placeholder="namePlaceholder"
-            placeholder="vd. bang_datadog"
+            placeholder="เช่น bang_datadog"
           >
           <button type="submit" class="primary landing-start" data-dd-action-name="demo_start_journey" data-i18n="cta">
-            Bắt đầu hành trình
+            เริ่มต้นทริป
           </button>
         </form>
       </div>
@@ -121,20 +121,20 @@
 
   <script>
     const I18N = {
-      vi: {
-        pageTitle: "Datadog Live Vietnam",
-        title: "Datadog Live Vietnam",
-        subtitle: "Một ly cà phê Hà Nội, một guardrail, và cả hành trình của bạn trên Datadog.",
-        nameLabel: "Tên và công ty của bạn?",
-        namePlaceholder: "vd. bang_datadog",
-        nameRequired: "Hãy nhập tên trước nhé!",
-        cta: "Bắt đầu hành trình",
-        starting: "Đang mở..."
+      th: {
+        pageTitle: "Datadog Live Thailand",
+        title: "Datadog Live Thailand",
+        subtitle: "หนึ่งชามต้มยำ หนึ่ง guardrail และทั้งทริปของคุณบน Datadog",
+        nameLabel: "ชื่อและบริษัทของคุณ?",
+        namePlaceholder: "เช่น bang_datadog",
+        nameRequired: "กรอกชื่อก่อนนะ",
+        cta: "เริ่มต้นทริป",
+        starting: "กำลังเปิด..."
       },
       en: {
-        pageTitle: "Datadog Live Vietnam",
-        title: "Datadog Live Vietnam",
-        subtitle: "One Hanoi coffee, one guardrail, and your whole session journey in Datadog.",
+        pageTitle: "Datadog Live Thailand",
+        title: "Datadog Live Thailand",
+        subtitle: "One bowl of tom yum, one guardrail, and your whole session journey in Datadog.",
         nameLabel: "What's your name and company?",
         namePlaceholder: "e.g. bang_datadog",
         nameRequired: "Please enter your name first!",
@@ -146,10 +146,10 @@
     const usernameInput = document.getElementById("username");
     const startButton = document.querySelector(".landing-start");
     const landingForm = document.getElementById("landingForm");
-    let currentLang = localStorage.getItem("ctf_lang") === "en" ? "en" : "vi";
+    let currentLang = localStorage.getItem("ctf_lang") === "en" ? "en" : "th";
 
     function t(key) {
-      return (I18N[currentLang] && I18N[currentLang][key]) || I18N.vi[key] || "";
+      return (I18N[currentLang] && I18N[currentLang][key]) || I18N.th[key] || "";
     }
 
     function applyLanguage() {
@@ -170,7 +170,7 @@
     }
 
     function setLanguage(lang) {
-      currentLang = lang === "en" ? "en" : "vi";
+      currentLang = lang === "en" ? "en" : "th";
       localStorage.setItem("ctf_lang", currentLang);
       applyLanguage();
     }

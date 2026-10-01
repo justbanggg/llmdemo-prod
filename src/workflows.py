@@ -156,8 +156,11 @@ def _process_ctf_request(msg):
             enhanced_tags["ai_guard.blocked"] = False
 
         msg_lower = msg.lower()
-        if any(term in msg_lower for term in ("coffee", "cà phê", "ca phe", "trứng", "sữa", "egg")):
-            enhanced_tags["llm.relevant"] = "coffee"
+        if any(
+            term in msg_lower
+            for term in ("tom yum", "tomyum", "ต้มยำ", "pad thai", "ผัดไทย", "shrimp", "กุ้ง", "spicy", "เผ็ด")
+        ):
+            enhanced_tags["llm.relevant"] = "soi-food"
 
         if evaluation["success"]:
             enhanced_tags["ctf.challenge_status"] = "completed"

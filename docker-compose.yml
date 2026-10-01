@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: hanoi-coffee-guardrail
+    container_name: bkk-soi-showdown
     restart: unless-stopped
     
     # Environment variables for the modular Flask application
@@ -11,8 +11,8 @@ services:
       
       # Datadog Core Configuration
       - DD_SITE=datadoghq.com
-      - DD_SERVICE=hanoi-coffee-guardrail
-      - DD_ENV=production
+      - DD_SERVICE=bkk-soi-showdown
+      - DD_ENV=th-production
       - DD_VERSION=1.0.0
       - DD_TRACE_ENABLED=true
       - DD_AGENT_HOST=datadog
@@ -22,7 +22,7 @@ services:
       
       # Datadog LLM Observability (for modular workflows)
       - DD_LLMOBS_ENABLED=1
-      - DD_LLMOBS_ML_APP=hanoi-coffee-guardrail
+      - DD_LLMOBS_ML_APP=bkk-soi-showdown
       - DD_LLMOBS_AGENTLESS_ENABLED=false
       
       # Datadog Application Security (for AI Guard integration)
@@ -56,7 +56,7 @@ services:
     
     # Health check using the modular app structure
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/menu"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000/game"]
       interval: 30s
       timeout: 10s
       retries: 3
